@@ -15,8 +15,14 @@ if( $handler instanceof SSOJWTServiceProviderHandler === false ) {
 $http = eZHTTPTool::instance();
 if(
     $http->hasGetVariable( 'message' ) && $http->hasGetVariable( 'kind' ) && $http->getVariable( 'kind' ) == 'error'
-) {
+ ) {
     SSOJWTLogItem::create( $handler->getServiceProvider(), null, $http->getVariable( 'message' ) );
 }
 
-return $module->redirectTo( 'user/logout' );
+$user = eZUser::instance();
+eZContentObject::cleanupAllInternalDrafts( $user->attribute( 'contentobject_id' ) );
+$user->logoutCurrent();
+$http->setSessionVariable( 'force_logout', 1 );
+
+header( 'Location: ' . $handler->getAfterLogoutURL() );
+eZExecution::cleanExit();
