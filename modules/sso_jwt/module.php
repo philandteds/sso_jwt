@@ -12,17 +12,17 @@ $Module = array(
 
 $ViewList = array(
     // Identity provider views
-    'login'  => array(
+    'login'               => array(
         'script'    => 'login.php',
         'functions' => array( 'idp' ),
         'params'    => array( 'ServiceProvider' )
     ),
-    'logout' => array(
+    'logout'              => array(
         'script'    => 'logout.php',
         'functions' => array( 'idp' ),
         'params'    => array( 'ServiceProvider' )
     ),
-    'logs'   => array(
+    'logs'                => array(
         'functions'           => array( 'idp' ),
         'script'              => 'logs.php',
         'params'              => array(),
@@ -35,11 +35,16 @@ $ViewList = array(
         'post_actions'        => array( 'BrowseActionName' )
     ),
     // Service provider views
-    'access' => array(
+    'access'              => array(
         'script'    => 'access.php',
         'functions' => array( 'sp' ),
         'params'    => array( 'ServiceProvider' )
-    )
+    ),
+    'set_last_access_uri' => array(
+        'script'    => 'set_last_access_uri.php',
+        'functions' => array( 'sp' ),
+        'params'    => array()
+    ),
 );
 
 $FunctionList = array(
