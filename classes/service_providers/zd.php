@@ -61,4 +61,12 @@ class SSOJWTServiceProviderHandlerZD extends SSOJWTServiceProviderHandler {
         return $url;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function getAfterLogoutURL() {
+        $subdomain = self::getIni()->variable( 'zd', 'Domain' );
+        return 'https://' . $subdomain . '.zendesk.com/';
+    }
+
 }

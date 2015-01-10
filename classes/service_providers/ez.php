@@ -56,6 +56,14 @@ class SSOJWTServiceProviderHandlerEZ extends SSOJWTServiceProviderHandler {
     /**
      * {@inheritdoc}
      */
+    public function getAfterLogoutURL() {
+        $serviceProvider = $this->getServiceProvider();
+        return self::getIni()->variable( $serviceProvider, 'SiteURL' );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function validateToken( array $token ) {
         $requiredFields = array( 'token_id', 'issued_at', 'login', 'email' );
         foreach( $requiredFields as $requiredField ) {

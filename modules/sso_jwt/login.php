@@ -17,7 +17,7 @@ $handler->init();
 if( eZUser::currentUser()->isLoggedIn() === false ) {
     SSOJWTLogItem::create( $handler->getServiceProvider(), 'Redirect to login page' );
     eZHTTPTool::instance()->setSessionVariable( 'RedirectAfterLogin', 'sso_jwt/login/' . $handler->getServiceProvider() );
-    return $module->redirectTo( 'user/login' );
+    return $module->redirectTo( 'user/login?service_provider=' . $handler->getServiceProvider() );
 }
 
 $token = $handler->getToken();

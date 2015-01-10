@@ -142,6 +142,14 @@ abstract class SSOJWTServiceProviderHandler {
     }
 
     /**
+     * Return url to which user will be redirected after logout
+     * @return string
+     */
+    public function getAfterLogoutURL() {
+        return null;
+    }
+
+    /**
      * Validates token data. This method is called on service provider side
      * @param array $token
      * @return bool
