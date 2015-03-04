@@ -24,15 +24,23 @@ class SSOJWTServiceProviderHandlerZD extends SSOJWTServiceProviderHandler {
      * {@inheritdoc}
      */
     public function getToken() {
-        $now    = time();
-        $user   = eZUser::currentUser();
-        $object = $user->attribute( 'contentobject' );
+        $now        = time();
+        $user       = eZUser::currentUser();
+        $object     = $user->attribute( 'contentobject' );
+        $dataMap    = $object->attribute( 'data_map' );
+        $userFields = array();
+
+        if( isset( $dataMap['account_number'] ) ) {
+            $userFields['ax_account_number'] = $dataMap['account_number']->attribute( 'content' );
+        }
 
         return array(
-            'jti'   => md5( $now . rand() ),
-            'iat'   => $now,
-            'name'  => $object->attribute( 'name' ),
-            'email' => $user->attribute( 'email' )
+            'jti'         => md5( $now . rand() ),
+            'iat'         => $now,
+            'name'        => $object->attribute( 'name' ),
+            'email'       => $user->attribute( 'email' ),
+            'tags'        => array( 'pt_portal_user' ),
+            'user_fields' => $userFields
         );
     }
 
