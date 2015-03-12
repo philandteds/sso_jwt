@@ -59,7 +59,33 @@ class SSOJWTServiceProviderHandlerEZPT extends SSOJWTServiceProviderHandlerEZ {
                 $addressAttributes[$attr] = $dataMap[$attr]->toString();
             }
 
-            $token['address'] = $addressAttributes;
+            $isAddressEmpty = true;
+            foreach( $addressAttributes as $value ) {
+                if( empty( $value ) === false ) {
+                    $isAddressEmpty = false;
+                    break;
+                }
+            }
+
+            if( $isAddressEmpty === false ) {
+                $token['address'] = $addressAttributes;
+            } else {
+                $isProfileEmpty = true;
+                foreach( $profileAttributes as $attr => $value ) {
+                    if( $attr == 'name' ) {
+                        continue;
+                    }
+
+                    if( empty( $value ) === false ) {
+                        $isProfileEmpty = false;
+                        break;
+                    }
+                }
+
+                if( $isProfileEmpty ) {
+                    unset( $token['consumer_profile'] );
+                }
+            }
         }
 
         return $token;
