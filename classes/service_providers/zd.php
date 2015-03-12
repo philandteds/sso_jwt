@@ -43,12 +43,26 @@ class SSOJWTServiceProviderHandlerZD extends SSOJWTServiceProviderHandler {
         $user   = eZUser::currentUser();
         $object = $user->attribute( 'contentobject' );
 
-        return array(
+        $token = array(
             'jti'   => md5( $now . rand() ),
             'iat'   => $now,
             'name'  => $object->attribute( 'name' ),
             'email' => $user->attribute( 'email' )
         );
+
+        $userType = SyncZDUserType::getGroupType( $object );
+        if( $userType == 'portal' ) {
+            $dataMap    = $object->attribute( 'data_map' );
+            $userFields = array();
+
+            if( isset( $dataMap['account_number'] ) ) {
+                $userFields['ax_account_number'] = $dataMap['account_number']->attribute( 'content' );
+            }
+            $token['user_fields'] = $userFields;
+            $token['tags']        = 'pt_portal_user';
+        }
+
+        return $token;
     }
 
     /**
