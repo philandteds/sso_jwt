@@ -59,7 +59,35 @@ class SSOJWTServiceProviderHandlerEZPT extends SSOJWTServiceProviderHandlerEZ {
                 $addressAttributes[$attr] = $dataMap[$attr]->toString();
             }
 
-            $token['address'] = $addressAttributes;
+            $isAddressEmpty = true;
+            foreach( $addressAttributes as $value ) {
+                if( empty( $value ) === false ) {
+                    $isAddressEmpty = false;
+                    break;
+                }
+            }
+
+            if( $isAddressEmpty === false ) {
+                $token['address'] = $addressAttributes;
+            }
+        }
+
+        if( isset( $token['address'] ) === false ) {
+            $isProfileEmpty = true;
+            foreach( $profileAttributes as $attr => $value ) {
+                if( $attr == 'name' ) {
+                    continue;
+                }
+
+                if( empty( $value ) === false ) {
+                    $isProfileEmpty = false;
+                    break;
+                }
+            }
+
+            if( $isProfileEmpty ) {
+                $token['consumer_profile'] = null;
+            }
         }
 
         return $token;
@@ -164,7 +192,7 @@ class SSOJWTServiceProviderHandlerEZPT extends SSOJWTServiceProviderHandlerEZ {
 
     private static function handleUserData( eZContentObject $user, $token ) {
         // Check if there is any consumer profile data in the token
-        if( isset( $token['consumer_profile'] ) === null ) {
+        if( isset( $token['consumer_profile'] ) === false ) {
             return null;
         }
 
@@ -192,7 +220,7 @@ class SSOJWTServiceProviderHandlerEZPT extends SSOJWTServiceProviderHandlerEZ {
         }
 
         // Check if there is any address data in the token and if there is existing consumer profile
-        if( isset( $token['address'] ) === null && $consumerProfile instanceof eZContentObjectTreeNode ) {
+        if( isset( $token['address'] ) === false || $consumerProfile instanceof eZContentObjectTreeNode === false ) {
             return null;
         }
 
