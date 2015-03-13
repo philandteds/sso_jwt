@@ -14,9 +14,24 @@ class SSOJWTServiceProviderHandlerZD extends SSOJWTServiceProviderHandler {
      * {@inheritdoc}
      */
     public function init() {
-        $http = eZHTTPTool::instance();
-        if( $http->hasGetVariable( 'return_to' ) ) {
-            $http->setSessionVariable( self::RETURN_TO_SESSION_VAR, $http->getVariable( 'return_to' ) );
+        $http     = eZHTTPTool::instance();
+        $returnTo = null;
+
+        $referer = eZSys::serverVariable( 'HTTP_REFERER', true );
+        if( $referer !== null ) {
+            $tmp = parse_url( $referer );
+            parse_str( $tmp['query'], $params );
+            if( isset( $params['return_to'] ) ) {
+                $returnTo = $params['return_to'];
+            }
+        }
+
+        if( $returnTo === null && $http->hasGetVariable( 'return_to' ) ) {
+            $returnTo = $http->getVariable( 'return_to' );
+        }
+
+        if( $returnTo !== null ) {
+            $http->setSessionVariable( self::RETURN_TO_SESSION_VAR, $returnTo );
         }
     }
 
