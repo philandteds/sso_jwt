@@ -32,6 +32,7 @@ class SSOJWTServiceProviderHandlerZD extends SSOJWTServiceProviderHandler {
 
         if( $returnTo !== null ) {
             $http->setSessionVariable( self::RETURN_TO_SESSION_VAR, $returnTo );
+            $http->setSessionVariable( 'RedirectAfterUserRegister', $returnTo );
         }
     }
 
