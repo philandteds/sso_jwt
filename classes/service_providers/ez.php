@@ -90,7 +90,7 @@ class SSOJWTServiceProviderHandlerEZ extends SSOJWTServiceProviderHandler {
      */
     public function getUser( array $token ) {
         // try to fetch existing user
-        $user = eZUser::fetchByName( $token['login'] );
+        $user = eZUser::fetchByEmail( $token['email'] );
         if( $user instanceof eZUser ) {
             return $user;
         }
