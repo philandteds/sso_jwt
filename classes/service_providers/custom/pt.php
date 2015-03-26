@@ -10,6 +10,8 @@ class SSOJWTServiceProviderHandlerEZPT extends SSOJWTServiceProviderHandlerEZ {
 
     const LANGUAGE_CODE = 'eng-RW';
 
+    private static $portalGroups = array( 'LJ Users' );
+
     /**
      * {@inheritdoc}
      */
@@ -17,6 +19,7 @@ class SSOJWTServiceProviderHandlerEZPT extends SSOJWTServiceProviderHandlerEZ {
         $token                     = parent::getToken();
         $token['consumer_profile'] = null;
         $token['address']          = null;
+        $token['groups']           = array();
 
         $consumerProfile   = self::getConsumerProfile();
         $profileAttributes = array(
@@ -90,6 +93,19 @@ class SSOJWTServiceProviderHandlerEZPT extends SSOJWTServiceProviderHandlerEZ {
             }
         }
 
+        $nodes = eZUser::currentUser()->attribute( 'contentobject' )->attribute( 'assigned_nodes' );
+        foreach( $nodes as $node ) {
+            $i = 0;
+            while( $node instanceof eZContentObjectTreeNode && $node->attribute( 'depth' ) > 1 && $i < 20 ) {
+                if( $node->attribute( 'class_identifier' ) == 'user_group' ) {
+                    $token['groups'][] = $node->attribute( 'name' );
+                }
+
+                $node = $node->attribute( 'parent' );
+            }
+        }
+        $token['groups'] = array_unique( $token['groups'] );
+
         return $token;
     }
 
@@ -148,6 +164,17 @@ class SSOJWTServiceProviderHandlerEZPT extends SSOJWTServiceProviderHandlerEZ {
      * {@inheritdoc}
      */
     public function getUser( array $token ) {
+        // portal users should not be able to login on web shops
+        if( isset( $token['groups'] ) && is_array( $token['groups'] ) && count( $token['groups'] ) > 0 ) {
+            foreach( self::$portalGroups as $portalGroup ) {
+                if( in_array( $portalGroup, $token['groups'] ) ) {
+                    $url = rtrim( self::getIni()->variable( 'General', 'IdentityProviderURL' ), '/' );
+                    header( 'Location: ' . $url );
+                    eZExecution::cleanExit();
+                }
+            }
+        }
+
         // try to fetch existing user
         $user = eZUser::fetchByEmail( $token['email'] );
         if( $user instanceof eZUser ) {
