@@ -17,6 +17,7 @@ class SSOJWTServiceProviderHandlerZD extends SSOJWTServiceProviderHandler {
         $http     = eZHTTPTool::instance();
         $returnTo = null;
 
+/*
         $referer = eZSys::serverVariable( 'HTTP_REFERER', true );
         if( $referer !== null ) {
             $tmp = parse_url( $referer );
@@ -25,8 +26,9 @@ class SSOJWTServiceProviderHandlerZD extends SSOJWTServiceProviderHandler {
                 $returnTo = $params['return_to'];
             }
         }
+*/
 
-        if( $returnTo === null && $http->hasGetVariable( 'return_to' ) ) {
+        if( $http->hasGetVariable( 'return_to' ) ) {
             $returnTo = $http->getVariable( 'return_to' );
         }
 
