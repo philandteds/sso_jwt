@@ -165,7 +165,7 @@ class SSOJWTServiceProviderHandlerEZPT extends SSOJWTServiceProviderHandlerEZ {
      */
     public function getUser( array $token ) {
         // portal users should not be able to login on web shops
-        if( isset( $token['groups'] ) && is_array( $token['groups'] ) && count( $token['groups'] ) > 0 ) {
+        if( isset( $token['groups'] ) && is_array( $token['groups'] ) && count( $token['groups'] ) == 1 ) {
             foreach( self::$portalGroups as $portalGroup ) {
                 if( in_array( $portalGroup, $token['groups'] ) ) {
                     $url = rtrim( self::getIni()->variable( 'General', 'IdentityProviderURL' ), '/' );
