@@ -200,6 +200,13 @@ class SSOJWTServiceProviderHandlerEZPT extends SSOJWTServiceProviderHandlerEZ {
             $attribtues[$identifier] = isset( $token[$identifier] ) ? $token[$identifier] : null;
         }
 
+        $behaviour = new ezpContentPublishingBehaviour();
+        $behaviour->disableAsynchronousPublishing( true );
+        $behaviour->isTemporary( true );
+        $behaviour->disableAsynchronousPublishing = true;
+        $behaviour->isTemporary = true;
+        ezpContentPublishingBehaviour::setBehaviour( $behaviour );
+
         $params = array(
             'parent_node_id'   => $parentNode->attribute( 'node_id' ),
             'class_identifier' => 'user',
