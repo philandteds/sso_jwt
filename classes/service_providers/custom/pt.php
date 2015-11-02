@@ -201,8 +201,6 @@ class SSOJWTServiceProviderHandlerEZPT extends SSOJWTServiceProviderHandlerEZ {
         }
 
         $behaviour = new ezpContentPublishingBehaviour();
-        $behaviour->disableAsynchronousPublishing( true );
-        $behaviour->isTemporary( true );
         $behaviour->disableAsynchronousPublishing = true;
         $behaviour->isTemporary = true;
         ezpContentPublishingBehaviour::setBehaviour( $behaviour );
