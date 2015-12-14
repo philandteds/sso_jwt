@@ -52,24 +52,5 @@ try {
 $http->setSessionVariable( 'eZUserLoggedInID', $user->attribute( 'contentobject_id' ) );
 eZContentObject::cleanupAllInternalDrafts( $user->attribute( 'contentobject_id' ) );
 
-$currentUser = eZUser::currentUser();
-
-$wwwDir = eZSys::wwwDir();
-
-$cookiePath = $wwwDir != '' ? $wwwDir : '/';
-
-if ( $currentUser->isLoggedIn() )
-{
-    // Only set the cookie if it doesnt exist. This way we are not constantly sending the set request in the headers.
-    if ( !isset( $_COOKIE['is_logged_in'] ) || $_COOKIE['is_logged_in'] != 'true' )
-    {
-        setcookie( 'is_logged_in', 'true', 0, $cookiePath );
-    }
-}
-    else if ( isset( $_COOKIE['is_logged_in'] ) )
-{
-        setcookie( 'is_logged_in', false, 0, $cookiePath );
-}
-
 $url = $http->sessionVariable( 'LastAccessesURI', '/' );
 return $module->redirectTo( $url );
