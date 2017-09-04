@@ -39,6 +39,12 @@ $ViewList = array(
         ),
         'post_actions'        => array( 'BrowseActionName' )
     ),
+    'registerajax'               => array(
+        'script'    => 'registerajax.php',
+        'functions' => array( 'idp' ),
+        'params'    => array( 'ServiceProvider' )
+    ),
+    
     // Service provider views
     'access'              => array(
         'script'    => 'access.php',
