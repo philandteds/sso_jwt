@@ -6,52 +6,52 @@
 
 $errors = array();
 
+$module = $Params['Module'];
 $http = eZHTTPTool::instance();
 $tpl = eZTemplate::factory();
 
-$newFieldValues = $http->postVariable('new_field_values');
+$newFieldValues = $http->postVariable('new_user_data');
 
 $firstName = $newFieldValues['first_name'];
 $lastName = $newFieldValues['last_name'];
 $email = $newFieldValues['email'];
 $password = $newFieldValues['password'];
-$confirmPassword = $newFieldValues['confirm_password'];
+$confirmPassword = $newFieldValues['password_confirm'];
 
-$redirectUri = $_POST['RedirectAfterUserRegister'];
+$redirectUri = $newFieldValues['RedirectAfterUserRegister'];
 
 // TODO reCAPTCHA
 
 
 // TODO i18N
-requiredField($firstName, "Please provide your First Name.", $errors);
-requiredField($lastName, "Please provide your Last Name.", $errors);
-requiredField($email, "Please provide your Email Address.", $errors);
-requiredField($password, "Please provide a password.", $errors);
-requiredField($confirmPassword, "Please confirm your password.", $errors);
+requiredField($firstName, "first_name", "Please provide your First Name.", $errors);
+requiredField($lastName, "last_name", "Please provide your Last Name.", $errors);
+requiredField($email, "email", "Please provide your Email Address.", $errors);
+requiredField($password, "password", "Please provide a password.", $errors);
+requiredField($confirmPassword, "password_confirm", "Please confirm your password.", $errors);
 
 if ($email) {
     if (!eZMail::validate($email)) {
-        $errors[] = "Not a valid email address";
+        addError("email", "Not a valid email address", $errors);
+    } else {
+
+        if (eZUser::fetchByEmail($email)) {
+            addError("email", "Email address has already been registered.", $errors);
+        }
     }
 }
 
-if (eZUser::fetchByEmail($email)) {
-    $errors[] = "Email address has already been registered.";
-}
-
 if ($password != $confirmPassword) {
-    $errors[] = "Passwords must match.";
+    addError("password", "Passwords must match.", $errors);
 }
-
 
 if (count($errors) > 0) {
     // show errors, redirect back to registration page
-    $tpl->setVariable("warnings", $errors); // tpl field is called 'warnings' for backward compatibility
-    $Result['content']  = $tpl->fetch('design:user/register');
+    errorsToTemplate($errors, $tpl);
+    $Result['content']  = $tpl->fetch('design:user/register.tpl');
 } else {
 
     // no errors, attempt to save
-
     $login = $email;
 
     $passwordHash = eZUser::createHash( $login, $password, eZUser::site(), eZUser::hashType() );
@@ -66,7 +66,7 @@ if (count($errors) > 0) {
 
     $ini = eZIni::instance();
     $creatorId = $ini->variable('UserSettings', 'UserCreatorID');
-    $parentNodeId = $ini->variable('UserSettings', 'DefaultUserPlacement');
+    $parentNodeId = eZURLAliasML::fetchNodeIDByPath('/Users/Members');
 
     $behaviour = new ezpContentPublishingBehaviour();
     $behaviour->disableAsynchronousPublishing = true;
@@ -86,22 +86,47 @@ if (count($errors) > 0) {
         $dataMap = $user->dataMap();
         $userAccount = $dataMap['user_account']->content();
 
+        /** @var eZUser $userAccount */
         $userAccount->loginCurrent();
 
         // TODO confirmation email
 
-        $Module->redirectTo($redirectUri ?: '/');
+        $module->redirectTo($redirectUri ?: '/');
     } else {
         // failed to create user
-        $errors[] = "Failed to create user.";
+        addError("user", "Failed to create user.", $errors);
 
-        $tpl->setVariable("warnings", $errors); // tpl field is called 'warnings' for backward compatibility
-        $Result['content']  = $tpl->fetch('design:user/register');
+        errorsToTemplate($errors, $tpl);
+        $Result['content']  = $tpl->fetch('design:user/register.tpl');
     }
 }
 
-function requiredField($field, $errorMessage, &$errors) {
+function requiredField($field, $fieldName,  $errorMessage, &$errors) {
     if (!$field || trim($field) == "") {
-        $errors[] = $errorMessage;
+        addError($fieldName, $errorMessage, $errors);
     }
+}
+
+function addError($fieldName, $errorMessage, &$errors) {
+
+    $errors[] = array(
+        'name' => $fieldName,
+        'description' => $errorMessage
+    );
+}
+
+/**
+ * Reformat the errors array into the format expected by the register.tpl template
+ *
+ * @param $errors array list of errors ex the addError() function
+ * @param $tpl eZTemplate
+ */
+function errorsToTemplate($errors, &$tpl) {
+
+    $validationResults = array(
+        'processed' => true,
+        'attributes'=> $errors
+    );
+
+    $tpl->setVariable("validation", $validationResults);
 }
