@@ -17,6 +17,11 @@ $ViewList = array(
         'functions' => array( 'idp' ),
         'params'    => array( 'ServiceProvider' )
     ),
+    'loginajax'               => array(
+        'script'    => 'loginajax.php',
+        'functions' => array( 'idp' ),
+        'params'    => array( 'ServiceProvider' )
+    ),
     'logout'              => array(
         'script'    => 'logout.php',
         'functions' => array( 'idp' ),
