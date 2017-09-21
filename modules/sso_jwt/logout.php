@@ -20,7 +20,7 @@ if(
 }
 
 $user = eZUser::instance();
-eZContentObject::cleanupAllInternalDrafts( $user->attribute( 'contentobject_id' ) );
+//eZContentObject::cleanupAllInternalDrafts( $user->attribute( 'contentobject_id' ) );
 $user->logoutCurrent();
 $http->setSessionVariable( 'force_logout', 1 );
 

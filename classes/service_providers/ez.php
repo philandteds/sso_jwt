@@ -58,7 +58,7 @@ class SSOJWTServiceProviderHandlerEZ extends SSOJWTServiceProviderHandler {
      */
     public function getAfterLogoutURL() {
         $serviceProvider = $this->getServiceProvider();
-        return self::getIni()->variable( $serviceProvider, 'SiteURL' );
+        return self::getIni()->variable( $serviceProvider, 'SiteURL' ) . 'user/logout';
     }
 
     /**
