@@ -2,4 +2,8 @@
 
 [ExtensionSettings]
 DesignExtensions[]=sso_jwt
+
+[JavaScriptSettings]
+FrontendJavaScriptList[]=sso_login.js
+
 */ ?>
