@@ -20,8 +20,7 @@ $confirmPassword = $newFieldValues['password_confirm'];
 
 $redirectUri = $newFieldValues['RedirectAfterUserRegister'];
 
-// TODO reCAPTCHA
-
+$recaptcha = $http->postVariable('g-recaptcha-response');
 
 // TODO i18N
 requiredField($firstName, "first_name", "Please provide your First Name.", $errors);
@@ -29,6 +28,7 @@ requiredField($lastName, "last_name", "Please provide your Last Name.", $errors)
 requiredField($email, "email", "Please provide your Email Address.", $errors);
 requiredField($password, "password", "Please provide a password.", $errors);
 requiredField($confirmPassword, "password_confirm", "Please confirm your password.", $errors);
+requiredField($recaptcha, "recaptcha", "Please confirm that you're not a robot.", $errors);
 
 if ($email) {
     if (!eZMail::validate($email)) {
@@ -43,6 +43,10 @@ if ($email) {
 
 if ($password != $confirmPassword) {
     addError("password", "Passwords must match.", $errors);
+}
+
+if ($recaptcha && !validateRecaptcha($recaptcha)) {
+    addError("recaptcha", "Please prove that you're not a robot", $errors);
 }
 
 if (count($errors) > 0) {
@@ -89,7 +93,12 @@ if (count($errors) > 0) {
         /** @var eZUser $userAccount */
         $userAccount->loginCurrent();
 
-        // TODO confirmation email
+        // perform post-registration actions (emails etc)
+
+        // TODO establish how we send emails. Looks like it's done through Campaign Monitor?
+
+//        $userID = $user->attribute( 'id' );
+//        $operationResult = eZOperationHandler::execute( 'user', 'register', array( 'user_id' => $userID ) );
 
         $module->redirectTo($redirectUri ?: '/');
     } else {
@@ -129,4 +138,45 @@ function errorsToTemplate($errors, &$tpl) {
     );
 
     $tpl->setVariable("validation", $validationResults);
+}
+
+function validateRecaptcha($recaptchaResponse) {
+
+    $http = eZHTTPTool::instance();
+    $latestSuccessfulRecaptcha = $http->sessionVariable("latest-successful-recaptcha", false);
+
+    if ($latestSuccessfulRecaptcha === $recaptchaResponse) {
+        // no need to check again, the recaptcha is known good.
+        return true;
+    }
+
+    $ini  = eZINI::instance();
+    $data = array(
+        'secret'   => $ini->variable( 'ReCaptcha', 'SecrectKey' ), // [sic]
+        'response' => $recaptchaResponse,
+        'remoteip' => eZSys::clientIP()
+    );
+
+    $verifyURL = 'https://www.google.com/recaptcha/api/siteverify?';
+    foreach( $data as $param => $value ) {
+        $verifyURL .= $param . '=' . $value . '&';
+    }
+    $verifyURL = trim( $verifyURL, '&' );
+
+    $curl     = curl_init( $verifyURL );
+    curl_setopt( $curl, CURLOPT_RETURNTRANSFER, true );
+    curl_setopt( $curl, CURLOPT_SSL_VERIFYHOST, false );
+    curl_setopt( $curl, CURLOPT_SSL_VERIFYPEER, false );
+    $response = curl_exec( $curl );
+    $response = json_decode( $response );
+    curl_close( $curl );
+
+    if( is_object( $response ) && isset( $response->success ) && (bool) $response->success ) {
+
+        $http->setSessionVariable("latest-successful-recaptcha", $recaptchaResponse);
+        return true;
+    }
+
+
+    return false;
 }
