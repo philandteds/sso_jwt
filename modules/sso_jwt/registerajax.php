@@ -22,7 +22,6 @@ $redirectUri = $newFieldValues['RedirectAfterUserRegister'];
 
 $recaptcha = $http->postVariable('g-recaptcha-response');
 
-// TODO i18N
 requiredField($firstName, "first_name", "Please provide your First Name.", $errors);
 requiredField($lastName, "last_name", "Please provide your Last Name.", $errors);
 requiredField($email, "email", "Please provide your Email Address.", $errors);
@@ -46,7 +45,7 @@ if ($password != $confirmPassword) {
 }
 
 if ($recaptcha && !validateRecaptcha($recaptcha)) {
-    addError("recaptcha", "Please prove that you're not a robot", $errors);
+    addError("recaptcha_validate", "Please prove that you're not a robot", $errors);
 }
 
 if (count($errors) > 0) {
