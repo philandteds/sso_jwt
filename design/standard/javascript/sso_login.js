@@ -34,13 +34,13 @@ function ajaxUserFormSubmit(jform) {
     });
 
     // copy the ajax field names into the forms we're submitting via ajax
-    $("form[data-sso-ajax-name]").each(function() {
+    $("input[data-sso-ajax-name]").each(function() {
         $(this).attr("name", $(this).attr("data-sso-ajax-name"));
     });
 
 
     // copy the ajax action URLs into the forms we're submitting via ajax
-    $("input[data-sso-ajax-action]").each(function() {
+    $("form[data-sso-ajax-action]").each(function() {
         $(this).attr("action", $(this).attr("data-sso-ajax-action"));
     });
 
