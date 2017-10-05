@@ -44,11 +44,6 @@ function ajaxUserFormSubmit(jform) {
         $(this).attr("action", $(this).attr("data-sso-ajax-action"));
     });
 
-    // under ajax, rename the Google recaptcha parameter so that it's not caught by the legacy event listeners and processed twice
-    $("input[name='g-recaptcha-response']").each(function() {
-        $(this).attr("name", "ajax_g-recaptcha-response");
-    });
-
     showSpinner(jform);
 
     $.ajax({

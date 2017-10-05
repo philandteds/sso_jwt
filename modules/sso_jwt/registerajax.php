@@ -18,7 +18,7 @@ $confirmPassword = $http->postVariable('ajax_password_confirm');
 
 $redirectUri = $http->postVariable('ajax_RedirectAfterUserRegister');
 
-$recaptcha = $http->postVariable('ajax_g-recaptcha-response');
+$recaptcha = $http->postVariable('g-recaptcha-response');
 
 requiredField($firstName, "first_name", "Please provide your First Name.", $errors);
 requiredField($lastName, "last_name", "Please provide your Last Name.", $errors);
