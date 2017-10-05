@@ -33,9 +33,20 @@ function ajaxUserFormSubmit(jform) {
         $(this).val($(this).attr("data-sso-ajax-value"));
     });
 
+    // copy the ajax field names into the forms we're submitting via ajax
+    $("form[data-sso-ajax-name]").each(function() {
+        $(this).attr("name", $(this).attr("data-sso-ajax-name"));
+    });
+
+
     // copy the ajax action URLs into the forms we're submitting via ajax
-    $("form[data-sso-ajax-action]").each(function() {
+    $("input[data-sso-ajax-action]").each(function() {
         $(this).attr("action", $(this).attr("data-sso-ajax-action"));
+    });
+
+    // under ajax, rename the Google recaptcha parameter so that it's not caught by the legacy event listeners and processed twice
+    $("input[name='g-recaptcha-response']").each(function() {
+        $(this).attr("name", "ajax_g-recaptcha-response");
     });
 
     showSpinner(jform);

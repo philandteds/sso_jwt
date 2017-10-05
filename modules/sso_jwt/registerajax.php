@@ -10,17 +10,15 @@ $module = $Params['Module'];
 $http = eZHTTPTool::instance();
 $tpl = eZTemplate::factory();
 
-$newFieldValues = $http->postVariable('new_user_data');
+$firstName = $http->postVariable('ajax_first_name');
+$lastName = $http->postVariable('ajax_last_name');
+$email = $http->postVariable('ajax_email');
+$password = $http->postVariable('ajax_password');
+$confirmPassword = $http->postVariable('ajax_password_confirm');
 
-$firstName = $newFieldValues['first_name'];
-$lastName = $newFieldValues['last_name'];
-$email = $newFieldValues['email'];
-$password = $newFieldValues['password'];
-$confirmPassword = $newFieldValues['password_confirm'];
+$redirectUri = $http->postVariable('ajax_RedirectAfterUserRegister');
 
-$redirectUri = $newFieldValues['RedirectAfterUserRegister'];
-
-$recaptcha = $http->postVariable('g-recaptcha-response');
+$recaptcha = $http->postVariable('ajax_g-recaptcha-response');
 
 requiredField($firstName, "first_name", "Please provide your First Name.", $errors);
 requiredField($lastName, "last_name", "Please provide your Last Name.", $errors);
