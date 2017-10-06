@@ -1,3 +1,5 @@
+{def $current_siteaccess='/'|ezurl(no, relative)}
+
 <div id="login-check" class="text-center" style="display:none">
     <br/><br/>
     <img src={"/icons/spiffygif_24x24.gif"|ezimage} alt="" />
@@ -61,7 +63,7 @@
                                         <img src={"/icons/spiffygif_24x24.gif"|ezimage} alt="" />
                                     </div>
                                 </div>
-                                <input type="hidden" name="RedirectURI" value="sso_jwt/login/{ezini( 'General', 'CurrentServiceProvider', 'sso_jwt.ini' )}" data-sso-ajax-value="sso_jwt/loginajax/{ezini( 'General', 'CurrentServiceProvider', 'sso_jwt.ini' )}" />
+                                <input type="hidden" name="RedirectURI" value="sso_jwt/login/{ezini( 'General', 'CurrentServiceProvider', 'sso_jwt.ini' )}" data-sso-ajax-value="sso_jwt/loginajax/{ezini( 'General', 'CurrentServiceProvider', 'sso_jwt.ini' )}{$current_siteaccess}" />
                             </div>
                         </div>
                     </form>
@@ -88,7 +90,7 @@
                     <h2 class="title">New to {$site_name}? <span>- Register below to join the family</span></h2>
                     <div class="register" >
 
-                        {def $ajax_sso_login_url = concat( ezini( 'General', 'IdentityProviderURL', 'sso_jwt.ini' ), 'sso_jwt/loginajax/', ezini( 'General', 'CurrentServiceProvider', 'sso_jwt.ini' ) )|ezurl( 'no' )}
+                        {def $ajax_sso_login_url = concat( ezini( 'General', 'IdentityProviderURL', 'sso_jwt.ini' ), 'sso_jwt/loginajax/', ezini( 'General', 'CurrentServiceProvider', 'sso_jwt.ini' ), $current_siteaccess )|ezurl( 'no' )}
                         {def $sso_login_url = concat( ezini( 'General', 'IdentityProviderURL', 'sso_jwt.ini' ), 'sso_jwt/login/', ezini( 'General', 'CurrentServiceProvider', 'sso_jwt.ini' ) )|ezurl( 'no' )}
                         <form id="register-tab" enctype="multipart/form-data"
                               data-sso-ajax-action={concat( ezini( 'General', 'IdentityProviderURL', 'sso_jwt.ini' ), 'sso_jwt/registerajax/?XDEBUG_SESSION_START=PHPSTORM' )|ezurl}
