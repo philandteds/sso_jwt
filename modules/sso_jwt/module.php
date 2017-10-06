@@ -20,7 +20,7 @@ $ViewList = array(
     'loginajax'               => array(
         'script'    => 'loginajax.php',
         'functions' => array( 'idp' ),
-        'params'    => array( 'ServiceProvider' )
+        'params'    => array( 'ServiceProvider', 'SiteAccessPrefix' )
     ),
     'logout'              => array(
         'script'    => 'logout.php',

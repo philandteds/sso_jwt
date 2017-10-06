@@ -10,6 +10,7 @@ abstract class SSOJWTServiceProviderHandler {
 
     protected static $instances  = array();
     protected $serviceProviderID = null;
+    protected $urlPrefix = null;
 
     /**
      * Returns ini file handler
@@ -80,11 +81,12 @@ abstract class SSOJWTServiceProviderHandler {
      */
     public final static function getInstance() {
         $class = get_called_class();
-        if( isset( self::$instances[$class] ) === false ) {
-            self::$instances[$class] = new $class;
-        }
+        return new $class;
+//        if( isset( self::$instances[$class] ) === false ) {
+//            self::$instances[$class] = new $class;
+//        }
 
-        return self::$instances[$class];
+//        return self::$instances[$class];
     }
 
     /**
@@ -174,5 +176,15 @@ abstract class SSOJWTServiceProviderHandler {
     public function isSSOEnabled() {
         return self::getIni()->variable( $this->getServiceProvider(), 'SSO' ) == 'enabled';
     }
+
+
+    public final function setUrlPrefix($urlPrefix) {
+        $this->urlPrefix = $urlPrefix;
+    }
+
+    public final function getUrlPrefix() {
+        return $this->urlPrefix;
+    }
+
 
 }

@@ -50,6 +50,12 @@ class SSOJWTServiceProviderHandlerEZ extends SSOJWTServiceProviderHandler {
     public function getEndpointURL( $jwt ) {
         $serviceProvider = $this->getServiceProvider();
         $url             = rtrim( self::getIni()->variable( $serviceProvider, 'SiteURL' ), '/' );
+
+        if ($this->urlPrefix) {
+            $url .= '/' . $this->urlPrefix;
+            $url = rtrim($url, '/');
+        }
+
         return $url . '/sso_jwt/access/' . $serviceProvider . '?jwt=' . $jwt;
     }
 

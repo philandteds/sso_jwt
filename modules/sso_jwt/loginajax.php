@@ -6,7 +6,10 @@
  * @date    09 Oct 2014
  * */
 $module          = $Params['Module'];
-$serviceProvider = $Params['ServiceProvider'] === null ? SSOJWTServiceProviderHandler::getDefaultServiceProvider() : $Params['ServiceProvider'];
+$serviceProvider = $Params['ServiceProvider'] ?: SSOJWTServiceProviderHandler::getDefaultServiceProvider();
+$siteAccessPrefix = $Params['SiteAccessPrefix'];
+
+
 $handler         = SSOJWTServiceProviderHandler::get( $serviceProvider );
 if( $handler instanceof SSOJWTServiceProviderHandler === false ) {
     return $module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
@@ -15,6 +18,9 @@ if( $handler instanceof SSOJWTServiceProviderHandler === false ) {
 $handler->init();
 $token = $handler->getToken();
 $key   = $handler->getSharedKey();
+
+$handler->setUrlPrefix($siteAccessPrefix);
+
 $jwt   = JWT::encode( $token, $key );
 $url   = $handler->getEndpointURL( $jwt );
 
