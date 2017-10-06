@@ -48,7 +48,7 @@ function ajaxUserFormSubmit(jform) {
     showSpinner(jform);
 
     $.ajax({
-        type: "POST",
+        method: "POST",
         url: jform.attr("action"),
         data: jform.serialize(),
         xhrFields: {
