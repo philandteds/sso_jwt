@@ -28,6 +28,8 @@ $(document).ready(function() {
 
 function ajaxUserFormSubmit(jform) {
 
+    debugger;
+
     // copy all ajax-specific values into the hidden fields
     $("input[data-sso-ajax-value]").each(function() {
         $(this).val($(this).attr("data-sso-ajax-value"));
@@ -37,7 +39,6 @@ function ajaxUserFormSubmit(jform) {
     $("input[data-sso-ajax-name]").each(function() {
         $(this).attr("name", $(this).attr("data-sso-ajax-name"));
     });
-
 
     // copy the ajax action URLs into the forms we're submitting via ajax
     $("form[data-sso-ajax-action]").each(function() {
