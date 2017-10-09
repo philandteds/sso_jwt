@@ -1,9 +1,22 @@
 $(document).ready(function() {
 
     // store last access URI, in case if login form is displayed non on login page (access denied)
+    if( $(".login").length > 0 ) {
+        if (document.URL.indexOf( '/user/login' ) === -1) {
+            // we're not on the login page, so we've landed somewhere that has an embedded login form.
+            //  Set the redirect URI, then forward through to the auto-login handling
+            setLastAccessUri();
+        } else {
+            // we've just landed on the login page. Try and do the auto-login.
+            attemptAutoLogin();
+        }
+    }
+
+/*
     if( $(".login").length >= 0 &&  document.URL.indexOf( '/user/login' ) === -1 ) {
         attemptAutoLogin();
     }
+*/
 
     if (isCorsWithCredentialsSupported()) {
 
@@ -27,8 +40,6 @@ $(document).ready(function() {
 });
 
 function ajaxUserFormSubmit(jform) {
-
-    debugger;
 
     // copy all ajax-specific values into the hidden fields
     $("input[data-sso-ajax-value]").each(function() {
@@ -98,9 +109,15 @@ function hideSpinner(containerForm) {
     containerForm.find('.spinner').hide();
 }
 
-function redirectToLoginPage() {
-    // loginPageUrl must be defined in the surrounding page
-    window.location.replace(loginPageUrl);
+function showAutologinSpinner() {
+    $(".login").hide();
+    $("#login-check").show();
+
+}
+
+function showLoginForm() {
+    $(".login").show();
+    $("#login-check").hide();
 }
 
 function isCorsWithCredentialsSupported() {
@@ -109,36 +126,50 @@ function isCorsWithCredentialsSupported() {
     } else {
         return false;
     }
-
 }
 
 function attemptAutoLogin() {
 
-    $(".login").hide();
-    $("#login-check").show();
+    debugger;
 
+    showAutologinSpinner();
+
+    $.ajax({
+        type: 'GET',
+        url: identityProviderUrl + 'account/is_logged_in?XDEBUG_SESSION_START=PHPSTORM',
+        jsonpCallback: 'jsonCallback',
+        contentType: 'application/json',
+        dataType: 'jsonp',
+        success: function( json ) {
+            if( json.is_logged_in ) {
+                window.location.replace(ssoLoginPageUrl);
+            } else {
+                showLoginForm();
+            }
+        },
+        error: function(xhr, status) {
+            showLoginForm();
+        }
+    });
+}
+
+
+function setLastAccessUri() {
+
+    debugger;
+
+    showAutologinSpinner();
 
     $.ajax( {
         url: lastAccessUriUrl + "?uri=" + document.URL,
         success: function() {
-            $.ajax({
-                type: 'GET',
-                url: identityProviderUrl + 'account/is_logged_in?XDEBUG_SESSION_START=PHPSTORM',
-                jsonpCallback: 'jsonCallback',
-                contentType: 'application/json',
-                dataType: 'jsonp',
-                success: function( json ) {
-                    if( json.is_logged_in ) {
-                        window.location = identityProviderUrl + 'sso_jwt/login/pt';
-                    } else {
-                        redirectToLoginPage();
-                    }
-                },
-                error: function(xhr, status) {
-                    redirectToLoginPage();
-                }
-            });
+            attemptAutoLogin();
+        },
+        error: function(xhr, status) {
+            showLoginForm();
         }
     } );
+
+
 
 }

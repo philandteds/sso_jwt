@@ -4,7 +4,7 @@
     <br/><br/>
     <img src={"/icons/spiffygif_24x24.gif"|ezimage} alt="" />
     <br/><br/>
-    {'Logging you in...'|i18n("extension/pt")}
+    {'Please wait...'|i18n("extension/pt")}
     <br/><br/>
 </div>
 
