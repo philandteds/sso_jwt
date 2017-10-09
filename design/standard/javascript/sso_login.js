@@ -12,12 +12,6 @@ $(document).ready(function() {
         }
     }
 
-/*
-    if( $(".login").length >= 0 &&  document.URL.indexOf( '/user/login' ) === -1 ) {
-        attemptAutoLogin();
-    }
-*/
-
     if (isCorsWithCredentialsSupported()) {
 
         $("input[name=LoginButton]").click(function() {
@@ -130,13 +124,11 @@ function isCorsWithCredentialsSupported() {
 
 function attemptAutoLogin() {
 
-    debugger;
-
     showAutologinSpinner();
 
     $.ajax({
         type: 'GET',
-        url: identityProviderUrl + 'account/is_logged_in?XDEBUG_SESSION_START=PHPSTORM',
+        url: identityProviderUrl + 'account/is_logged_in',
         jsonpCallback: 'jsonCallback',
         contentType: 'application/json',
         dataType: 'jsonp',
@@ -155,8 +147,6 @@ function attemptAutoLogin() {
 
 
 function setLastAccessUri() {
-
-    debugger;
 
     showAutologinSpinner();
 
