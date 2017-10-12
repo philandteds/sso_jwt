@@ -2,12 +2,18 @@ $(document).ready(function() {
 
     // store last access URI, in case if login form is displayed non on login page (access denied)
     if( $(".login").length > 0 ) {
+        ssoDebugLog("Login div detected.");
+
         if (document.URL.indexOf( '/user/login' ) === -1) {
             // we're not on the login page, so we've landed somewhere that has an embedded login form.
             //  Set the redirect URI, then forward through to the auto-login handling
+            ssoDebugLog("We are not on the login page, set last access URI.");
+
             setLastAccessUri();
         } else {
             // we've just landed on the login page. Try and do the auto-login.
+            ssoDebugLog("We are on the login page. Proceed to auto-login.");
+
             attemptAutoLogin();
         }
     }
@@ -35,6 +41,7 @@ $(document).ready(function() {
 
 function ajaxUserFormSubmit(jform) {
 
+
     // copy all ajax-specific values into the hidden fields
     $("input[data-sso-ajax-value]").each(function() {
         $(this).val($(this).attr("data-sso-ajax-value"));
@@ -50,6 +57,8 @@ function ajaxUserFormSubmit(jform) {
         $(this).attr("action", $(this).attr("data-sso-ajax-action"));
     });
 
+    ssoDebugLog("ajaxUserFormSubmit: " + jform.attr("action"));
+
     showSpinner(jform);
 
     $.ajax({
@@ -61,24 +70,36 @@ function ajaxUserFormSubmit(jform) {
         },
         success: function(data) {
 
+            ssoDebugLog("Ajax success in ajaxUserFormSubmit().");
+
             var jdata = $(data);
             var warnings = jdata.find(".warning");
 
             if (warnings.length > 0) {
+                ssoDebugLog("Warnings detected");
+
                 showErrors(warnings, jform);
                 hideSpinner(jform);
 
             } else {
+                ssoDebugLog("No warnings detected. Success.");
+
                 // No warnings. Success.
                 var successUrl = jdata.find("#jwt-redirect").text();
 
                 if (successUrl) {
+                    ssoDebugLog("Redirecting to " + successUrl)
+
                     window.location.replace(successUrl);
+                } else {
+                    ssoDebugLog("Impossible state: Success on ajaxUserFormSubmit() but no success URL.");
                 }
             }
 
         },
-        error: function() {
+        error: function(xhr, status) {
+            ssoDebugLog("Ajax failure on ajaxUserFormSubmit(). Status " + status);
+
             hideSpinner(jform);
         }
 
@@ -104,25 +125,35 @@ function hideSpinner(containerForm) {
 }
 
 function showAutologinSpinner() {
+
+    ssoDebugLog("Showing autologin spinner. Hiding login form");
+
     $(".login").hide();
     $("#login-check").show();
 
 }
 
 function showLoginForm() {
+
+    ssoDebugLog("Showing login form");
+
     $(".login").show();
     $("#login-check").hide();
 }
 
 function isCorsWithCredentialsSupported() {
     if ('withCredentials' in new XMLHttpRequest()) {
+        ssoDebugLog("CORS with credentials is supported.");
         return true;
     } else {
+        ssoDebugLog("CORS with credentials is NOT supported. Can't use AJAX.");
         return false;
     }
 }
 
 function attemptAutoLogin() {
+
+    ssoDebugLog("attemptAutoLogin()");
 
     showAutologinSpinner();
 
@@ -133,13 +164,21 @@ function attemptAutoLogin() {
         contentType: 'application/json',
         dataType: 'jsonp',
         success: function( json ) {
+            ssoDebugLog("Ajax success in attemptAutoLogin().");
+
             if( json.is_logged_in ) {
+                ssoDebugLog("CMS says we are logged in. Redirecting to login page.");
+
                 window.location.replace(ssoLoginPageUrl);
             } else {
+                ssoDebugLog("CMS says we NOT are logged in. Showing login form.");
+
                 showLoginForm();
             }
         },
         error: function(xhr, status) {
+            ssoDebugLog("Ajax failure in attemptAutoLogin(). Status: " + status + ". Showing login form.");
+
             showLoginForm();
         }
     });
@@ -148,18 +187,28 @@ function attemptAutoLogin() {
 
 function setLastAccessUri() {
 
+    ssoDebugLog("setLastAccessUri()");
+
     showAutologinSpinner();
 
     $.ajax( {
         url: lastAccessUriUrl + "?uri=" + document.URL,
         success: function() {
+            ssoDebugLog("Ajax success in setLastAccessUri(). Proceeding to autologin.");
             attemptAutoLogin();
         },
         error: function(xhr, status) {
+            ssoDebugLog("Ajax failure in setLastAccessUri. Status: " + status + ". Showing login form.");
             showLoginForm();
         }
     } );
 
 
 
+}
+
+function ssoDebugLog(message) {
+    try {
+        console.log(message);
+    } catch(e) {}
 }
