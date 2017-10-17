@@ -209,6 +209,10 @@ function setLastAccessUri() {
 
 function ssoDebugLog(message) {
     try {
-        console.log(message);
+        if (typeof(logSsoDebugMessages) !== 'undefined') {
+            if (logSsoDebugMessages) {
+                console.log(message);
+            }
+        }
     } catch(e) {}
 }
