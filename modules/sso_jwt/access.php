@@ -52,5 +52,11 @@ try {
 $http->setSessionVariable( 'eZUserLoggedInID', $user->attribute( 'contentobject_id' ) );
 eZContentObject::cleanupAllInternalDrafts( $user->attribute( 'contentobject_id' ) );
 
+// Save session IP if IP check is enabled
+if( SSOJWTSessionIp::isEnabled() ) {
+    $sessionIp = new SSOJWTSessionIp();
+    $sessionIp->store();
+}
+
 $url = $http->sessionVariable( 'LastAccessesURI', '/' );
 return $module->redirectTo( $url );

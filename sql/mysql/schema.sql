@@ -19,3 +19,10 @@ CREATE TABLE `sso_jwt_logs` (
   `ip` char(16) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+DROP TABLE IF EXISTS `session_ip`;
+CREATE TABLE `session_ip` (
+  `session_id` varchar(32) NOT NULL,
+  `user_ip` char(16) default NULL,
+  PRIMARY KEY  (`session_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
