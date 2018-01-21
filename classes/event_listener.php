@@ -13,6 +13,10 @@ class SSOJWTEventListener {
             return;
         }
 
+        if( eZUser::currentUser()->isLoggedIn() === false ) {
+            return;
+        }
+
         $sessionIp  = null;
         $conditions = array(
             'session_id' => array( '=', session_id() )
