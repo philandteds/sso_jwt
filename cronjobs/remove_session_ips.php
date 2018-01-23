@@ -16,6 +16,11 @@ $q  = '
 ';
 $r  = $db->arrayQuery( $q );
 foreach( $r as $row ) {
+    // Check if session exists on un-clustered instances
+    if( file_exists( '/tmp/sess_' . $row['session_id'] ) ) {
+        continue;
+    }
+
     $p = array( 'session_id' => $row['session_id'] );
     eZPersistentObject::removeObject( SSOJWTSessionIp::definition(), $p );
 }
