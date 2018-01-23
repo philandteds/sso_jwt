@@ -60,7 +60,18 @@ class SSOJWTSessionIp extends eZPersistentObject {
     }
 
     public static function isEnabled() {
-        $value = eZINI::instance( 'sso_jwt.ini' )->variable( 'General', 'SessionIpCheck' );
-        return in_array( $value, array( 'enabled', 'yes', 'true' ) );
+        $ini   = eZINI::instance( 'sso_jwt.ini' );
+        $value = $ini->variable( 'SessionIpCheck', 'Status' );
+        if( in_array( $value, array( 'enabled', 'yes', 'true' ) ) === false ) {
+            return false;
+        }
+
+        $skipSAs = $ini->variable( 'SessionIpCheck', 'SkipSiteaccesses' );
+        $sa      = eZSiteAccess::current();
+        if( in_array( $sa['name'], $skipSAs ) ) {
+            return false;
+        }
+
+        return true;
     }
 }
