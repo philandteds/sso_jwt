@@ -20,7 +20,7 @@ $(document).ready(function() {
 
     if (isCorsWithCredentialsSupported()) {
 
-        $("input[name=LoginButton]").click(function() {
+        $("#login-tab input[name=LoginButton]").click(function() {
 
             var loginForm = $("form#login-tab");
             ajaxUserFormSubmit(loginForm);
@@ -28,7 +28,7 @@ $(document).ready(function() {
         }) ;
 
 
-        $("input[name=PublishButton]").click(function() {
+        $("#register-tab input[name=PublishButton]").click(function() {
 
             var registerForm = $("form#register-tab");
             ajaxUserFormSubmit(registerForm);
