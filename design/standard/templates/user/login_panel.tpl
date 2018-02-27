@@ -1,10 +1,13 @@
 {def $current_siteaccess='/'|ezurl(no, relative)}
 
-
-
 {* TODO remove inline styling *}
 {literal}
-    <style>        
+    <style>
+        .email-opt-in-box, .privacy-policy-box {
+            margin-top: 1rem;
+            padding: 1em;
+            border: 1px solid #cccccc;
+        }
 
         input[type='checkbox'] {
             width:auto;
@@ -13,23 +16,6 @@
 
         a.trigger-show-register-tab {
             color: white;
-        }
-
-         @media (min-width: 768px) {
-            .sign_up.question {
-                width:750px
-            }
-        }
-
-        /* position error messages (plain input fields) */
-        .has-error .help-block {
-            margin-top: -8px;
-            margin-bottom: 12px;
-        }
-
-        /* and a special case for the privacy policy checkbox */
-        .privacy-policy-box.has-error .help-block {
-            margin-top: 0px;
         }
     </style>
 {/literal}
@@ -129,7 +115,7 @@
 
                 <div class="sign_up question row">
                     <h2 class="title col-xs-12 col-sm-8">New to {$site_name}? <span>- Register below to join the family</span></h2>
-                    <div class="register col-xs-12" >
+                    <div class="register col-xs-12  col-sm-8" >
 
                         {def $ajax_sso_login_url = concat( ezini( 'General', 'IdentityProviderURL', 'sso_jwt.ini' ), 'sso_jwt/loginajax/', ezini( 'General', 'CurrentServiceProvider', 'sso_jwt.ini' ), $current_siteaccess )|ezurl( 'no' )}
                         {def $sso_login_url = concat( ezini( 'General', 'IdentityProviderURL', 'sso_jwt.ini' ), 'sso_jwt/login/', ezini( 'General', 'CurrentServiceProvider', 'sso_jwt.ini' ) )|ezurl( 'no' )}
