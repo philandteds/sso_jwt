@@ -142,7 +142,6 @@
                             <input type="text" id="register-email" placeholder="{'Email'|i18n('extension/pt')}" name="new_user_data[email]" value="" data-sso-ajax-name="ajax_email"/>
                             <input type="password" placeholder="{'Password'|i18n('extension/pt')}" name="new_user_data[password]" value="" data-sso-ajax-name="ajax_password"/>
                             <input type="password" placeholder="{'Password confirm'|i18n('extension/pt')}" name="new_user_data[password_confirm]" value="" data-sso-ajax-name="ajax_password_confirm"/>
-                            <div class="g-recaptcha" data-sitekey="{ezini( 'ReCaptcha', 'SiteKey', 'site.ini' )}"></div>
 
                             {* emarsys *}
                             <div class="email-opt-in-box">
@@ -154,6 +153,8 @@
                                 <input type="checkbox" id="accept-privacy-policy" class="required">
                                 <label for="accept-privacy-policy">{"I agree to the "|i18n('extension/pt')}<a href={'/Support/Privacy-Policy'|ezurl} target="_blank">{"Privacy Policy"|i18n('extension/pt')}</a></label>
                             </div>
+
+                            <div class="g-recaptcha" data-sitekey="{ezini( 'ReCaptcha', 'SiteKey', 'site.ini' )}" data-size="compact"></div>
 
                             <div>
                                 <input type="submit" name="PublishButton" value="{'Create an Account'|i18n('design/standard/user')}" />
@@ -168,6 +169,7 @@
                         </form>
                         {* we need to be sure, there will be RegisterUserID in the session when sign-up form is submitted *}
                         <img src="{concat( ezini( 'General', 'IdentityProviderURL', 'sso_jwt.ini' ), 'user/register' )|ezurl( 'no' )}" style="width: 0px; height: 0px;"/>
+                    </div>
 
                     <div class="reg_info col-xs-12 col-sm-4">
                         <h3>{'Why Sign Up?'|i18n('design/standard/user')}</h3>
