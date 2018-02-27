@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+    $(".trigger-show-register-tab").click(showRegisterTab);
+
     // store last access URI, in case if login form is displayed non on login page (access denied)
     if( $(".login").length > 0 ) {
         ssoDebugLog("Login div detected.");
@@ -31,7 +33,22 @@ $(document).ready(function() {
         $("#register-tab input[name=PublishButton]").click(function() {
 
             var registerForm = $("form#register-tab");
-            ajaxUserFormSubmit(registerForm);
+
+            showSpinner(registerForm);
+
+            // emarsys email opt in
+            submitEmarsysNewsletterSignup(
+                registerForm.attr('data-emarsys-signup-url'),
+                $("#register-email").val(), // email
+                null, // country
+                $("#email-opt-in").is(':checked'), // opt in
+                function()  { }, // success,
+                function() { // complete
+                    // chain through to new user signup
+                    ajaxUserFormSubmit(registerForm);
+                }
+            );
+
             return false;
         }) ;
 
@@ -40,7 +57,6 @@ $(document).ready(function() {
 });
 
 function ajaxUserFormSubmit(jform) {
-
 
     // copy all ajax-specific values into the hidden fields
     $("input[data-sso-ajax-value]").each(function() {
@@ -58,8 +74,6 @@ function ajaxUserFormSubmit(jform) {
     });
 
     ssoDebugLog("ajaxUserFormSubmit: " + jform.attr("action"));
-
-    showSpinner(jform);
 
     $.ajax({
         method: "POST",
@@ -88,7 +102,7 @@ function ajaxUserFormSubmit(jform) {
                 var successUrl = jdata.find("#jwt-redirect").text();
 
                 if (successUrl) {
-                    ssoDebugLog("Redirecting to " + successUrl)
+                    ssoDebugLog("Redirecting to " + successUrl);
 
                     window.location.replace(successUrl);
                 } else {
@@ -163,6 +177,7 @@ function attemptAutoLogin() {
         jsonpCallback: 'jsonCallback',
         contentType: 'application/json',
         dataType: 'jsonp',
+        timeout: 7000,
         success: function( json ) {
             ssoDebugLog("Ajax success in attemptAutoLogin().");
 
@@ -178,10 +193,10 @@ function attemptAutoLogin() {
         },
         error: function(xhr, status) {
             ssoDebugLog("Ajax failure in attemptAutoLogin(). Status: " + status + ". Showing login form.");
-
             showLoginForm();
         }
     });
+
 }
 
 
@@ -202,9 +217,10 @@ function setLastAccessUri() {
             showLoginForm();
         }
     } );
+}
 
-
-
+function showRegisterTab() {
+    $("#profile-tab").tab('show');
 }
 
 function ssoDebugLog(message) {
@@ -216,3 +232,5 @@ function ssoDebugLog(message) {
         }
     } catch(e) {}
 }
+
+

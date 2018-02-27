@@ -108,11 +108,16 @@
                     </div>
                     {* end forgot passwd *}
 
+                    <div class="text-center">
+                        <a href="#" class="btn btn-primary trigger-show-register-tab">No account yet?</a>
+                    </div>
+
                 </div>
                 {* end old school login *}
 
             </div>
-            {* end main box *} </div>
+            {* end main box *}
+        </div>
         <div role="tabpanel" class="tab-pane fade" id="profile" aria-labelledby="profile-tab"> {* new sign up *}
             <div class="reg">
 
@@ -125,6 +130,7 @@
                         {def $sso_login_url = concat( ezini( 'General', 'IdentityProviderURL', 'sso_jwt.ini' ), 'sso_jwt/login/', ezini( 'General', 'CurrentServiceProvider', 'sso_jwt.ini' ) )|ezurl( 'no' )}
                         <form id="register-tab" enctype="multipart/form-data"
                               data-sso-ajax-action={concat( ezini( 'General', 'IdentityProviderURL', 'sso_jwt.ini' ), 'sso_jwt/registerajax' )|ezurl}
+                              data-emarsys-signup-url={'emarsys/signup'|ezurl}
                               action={concat( ezini( 'General', 'IdentityProviderURL', 'sso_jwt.ini' ), 'sso_jwt/register' )|ezurl} method="POST" name="Register">
 
                             <div class="error-container">
@@ -133,12 +139,24 @@
 
                             <input class="halfbox" type="text" placeholder="{'First name'|i18n('extension/pt')}" name="new_user_data[first_name]" value="" data-sso-ajax-name="ajax_first_name" />
                             <input type="text" placeholder="{'Last name'|i18n('extension/pt')}" name="new_user_data[last_name]" value="" data-sso-ajax-name="ajax_last_name"/>
-                            <input type="text" placeholder="{'Email'|i18n('extension/pt')}" name="new_user_data[email]" value="" data-sso-ajax-name="ajax_email"/>
+                            <input type="text" id="register-email" placeholder="{'Email'|i18n('extension/pt')}" name="new_user_data[email]" value="" data-sso-ajax-name="ajax_email"/>
                             <input type="password" placeholder="{'Password'|i18n('extension/pt')}" name="new_user_data[password]" value="" data-sso-ajax-name="ajax_password"/>
                             <input type="password" placeholder="{'Password confirm'|i18n('extension/pt')}" name="new_user_data[password_confirm]" value="" data-sso-ajax-name="ajax_password_confirm"/>
                             <div class="g-recaptcha" data-sitekey="{ezini( 'ReCaptcha', 'SiteKey', 'site.ini' )}"></div>
+
+                            {* emarsys *}
+                            <div class="email-opt-in-box">
+                                <input type="checkbox" id="email-opt-in" name="email-opt-in">
+                                <label for="email-opt-in">{"I'd like to sign up to the email newsletter"|i18n('extension/pt')}</label>
+                            </div>
+
+                            <div class="privacy-policy-box">
+                                <input type="checkbox" id="accept-privacy-policy" class="required">
+                                <label for="accept-privacy-policy">{"I agree to the "|i18n('extension/pt')}<a href={'/Support/Privacy-Policy'|ezurl} target="_blank">{"Privacy Policy"|i18n('extension/pt')}</a></label>
+                            </div>
+
                             <div>
-                                <input type="submit" name="PublishButton" value="{'Register'|i18n('design/standard/user')}" />
+                                <input type="submit" name="PublishButton" value="{'Create an Account'|i18n('design/standard/user')}" />
                                 <input type="hidden" name="new_user_data[RedirectAfterUserRegister]" value="{$sso_login_url}" data-sso-ajax-value="{$ajax_sso_login_url}" data-sso-ajax-name="ajax_RedirectAfterUserRegister"/>
 
                                 <div style="display:none" class="spinner text-center">
