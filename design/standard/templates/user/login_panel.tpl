@@ -4,9 +4,10 @@
 {literal}
     <style>
         .email-opt-in-box, .privacy-policy-box {
-            margin-top: 1rem;
+            margin-bottom: 15px;
             padding: 1em;
             border: 1px solid #cccccc;
+            width: 90%;
         }
 
         input[type='checkbox'] {
@@ -16,6 +17,12 @@
 
         a.trigger-show-register-tab {
             color: white;
+        }
+
+        @media (min-width: 768px) {
+            .sign_up.question {
+                width: 750px;
+            }
         }
     </style>
 {/literal}
@@ -146,6 +153,8 @@
                                 />
                             </div>
 
+                            <div class="g-recaptcha" data-sitekey="{ezini( 'ReCaptcha', 'SiteKey', 'site.ini' )}" data-size="compact"></div>
+
                             <div>
                                 <input type="password" placeholder="{'Password'|i18n('extension/pt')}" name="new_user_data[password]" value="" data-sso-ajax-name="ajax_password"
                                        id="password" data-validation="required" data-validation-error-msg="{'Please give yourself a password'|i18n('extension/pt')}"
@@ -183,7 +192,7 @@
                     </div>
 
                     <div class="reg_info col-xs-12 col-sm-4">
-                        <h2>{'Why Sign Up?'|i18n('design/standard/user')}</h2>
+                        <h3>{'Why Sign Up?'|i18n('design/standard/user')}</h3>
                         {*<img src="/extension/pt/design/pt/images/graphics/placeholder.jpg" alt="girl with questioning look" />*}
                         <p>{'Keep informed about product upgrades or safety announcements specific to your site_name product.'|i18n('design/standard/user', '', hash('site_name', $site_name))}</p>
                         <ul>
