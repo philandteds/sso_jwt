@@ -1,5 +1,7 @@
 {def $current_siteaccess='/'|ezurl(no, relative)}
 
+
+
 {* TODO remove inline styling *}
 {literal}
     <style>
@@ -23,6 +25,17 @@
             .sign_up.question {
                 width: 750px;
             }
+        }
+
+        /* position error messages (plain input fields) */
+        .has-error .help-block {
+            margin-top: -8px;
+            margin-bottom: 12px;
+        }
+
+        /* and a special case for the privacy policy checkbox */
+        .privacy-policy-box.has-error .help-block {
+            margin-top: 0px;
         }
     </style>
 {/literal}
@@ -135,11 +148,11 @@
                                 {* ajax errors will be inserted here *}
                             </div>
 
-                            <div>
-                                <input class="halfbox" type="text" placeholder="{'First name'|i18n('extension/pt')}" name="new_user_data[first_name]" value="" data-sso-ajax-name="ajax_first_name"
-                                       id="first-name" data-validation="required" data-validation-error-msg="{'Please tell us your first name'|i18n('extension/pt')}"
-                                />
-                            </div>
+                            <input class="halfbox" type="text" placeholder="{'First name'|i18n('extension/pt')}" name="new_user_data[first_name]" value="" data-sso-ajax-name="ajax_first_name" />
+                            <input type="text" placeholder="{'Last name'|i18n('extension/pt')}" name="new_user_data[last_name]" value="" data-sso-ajax-name="ajax_last_name"/>
+                            <input type="text" id="register-email" placeholder="{'Email'|i18n('extension/pt')}" name="new_user_data[email]" value="" data-sso-ajax-name="ajax_email"/>
+                            <input type="password" placeholder="{'Password'|i18n('extension/pt')}" name="new_user_data[password]" value="" data-sso-ajax-name="ajax_password"/>
+                            <input type="password" placeholder="{'Password confirm'|i18n('extension/pt')}" name="new_user_data[password_confirm]" value="" data-sso-ajax-name="ajax_password_confirm"/>
 
                             <div>
                                 <input type="text" placeholder="{'Last name'|i18n('extension/pt')}" name="new_user_data[last_name]" value="" data-sso-ajax-name="ajax_last_name"
@@ -147,10 +160,9 @@
                                 />
                             </div>
 
-                            <div>
-                                <input type="text" id="register-email" placeholder="{'Email'|i18n('extension/pt')}" name="new_user_data[email]" value="" data-sso-ajax-name="ajax_email"
-                                       id="email" data-validation="required email" data-validation-error-msg="{'Please enter your email address'|i18n('extension/pt')}"
-                                />
+                            <div class="privacy-policy-box">
+                                <input type="checkbox" id="accept-privacy-policy" class="required">
+                                <label for="accept-privacy-policy">{"I agree to the "|i18n('extension/pt')}<a href={'/Support/Privacy-Policy'|ezurl} target="_blank">{"Privacy Policy"|i18n('extension/pt')}</a></label>
                             </div>
 
                             <div class="g-recaptcha" data-sitekey="{ezini( 'ReCaptcha', 'SiteKey', 'site.ini' )}" data-size="compact"></div>
