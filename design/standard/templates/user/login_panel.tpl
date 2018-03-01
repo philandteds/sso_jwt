@@ -26,6 +26,17 @@
         .privacy-policy-box.has-error .help-block {
             margin-top: 0px;
         }
+
+        /* position error messages (plain input fields) */
+        .has-error .help-block {
+            margin-top: -8px;
+            margin-bottom: 12px;
+        }
+
+        /* and a special case for the privacy policy checkbox */
+        .privacy-policy-box.has-error .help-block {
+            margin-top: 0px;
+        }
     </style>
 {/literal}
 
@@ -137,11 +148,35 @@
                                 {* ajax errors will be inserted here *}
                             </div>
 
-                            <input class="halfbox" type="text" placeholder="{'First name'|i18n('extension/pt')}" name="new_user_data[first_name]" value="" data-sso-ajax-name="ajax_first_name" />
-                            <input type="text" placeholder="{'Last name'|i18n('extension/pt')}" name="new_user_data[last_name]" value="" data-sso-ajax-name="ajax_last_name"/>
-                            <input type="text" id="register-email" placeholder="{'Email'|i18n('extension/pt')}" name="new_user_data[email]" value="" data-sso-ajax-name="ajax_email"/>
-                            <input type="password" placeholder="{'Password'|i18n('extension/pt')}" name="new_user_data[password]" value="" data-sso-ajax-name="ajax_password"/>
-                            <input type="password" placeholder="{'Password confirm'|i18n('extension/pt')}" name="new_user_data[password_confirm]" value="" data-sso-ajax-name="ajax_password_confirm"/>
+                            <div>
+                                <input class="halfbox" type="text" placeholder="{'First name'|i18n('extension/pt')}" name="new_user_data[first_name]" value="" data-sso-ajax-name="ajax_first_name"
+                                       id="first-name" data-validation="required" data-validation-error-msg="{'Please tell us your first name'|i18n('extension/pt')}"
+                                />
+                            </div>
+
+                            <div>
+                                <input type="text" placeholder="{'Last name'|i18n('extension/pt')}" name="new_user_data[last_name]" value="" data-sso-ajax-name="ajax_last_name"
+                                       id="last-name" data-validation="required" data-validation-error-msg="{'Please tell us your last name'|i18n('extension/pt')}"
+                                />
+                            </div>
+
+                            <div>
+                                <input type="text" id="register-email" placeholder="{'Email'|i18n('extension/pt')}" name="new_user_data[email]" value="" data-sso-ajax-name="ajax_email"
+                                       id="email" data-validation="required email" data-validation-error-msg="{'Please enter your email address'|i18n('extension/pt')}"
+                                />
+                            </div>
+
+                            <div>
+                                <input type="password" placeholder="{'Password'|i18n('extension/pt')}" name="new_user_data[password]" value="" data-sso-ajax-name="ajax_password"
+                                       id="password" data-validation="required" data-validation-error-msg="{'Please give yourself a password'|i18n('extension/pt')}"
+                                />
+                            </div>
+
+                            <div>
+                                <input type="password" placeholder="{'Password confirm'|i18n('extension/pt')}" name="new_user_data[password_confirm]" value="" data-sso-ajax-name="ajax_password_confirm"
+                                       id="password-confirm" data-validation="required" data-validation-error-msg="{'Please confirm your password'|i18n('extension/pt')}"
+                                />
+                            </div>
 
                             {* emarsys *}
                             <div class="email-opt-in-box">
@@ -150,8 +185,8 @@
                             </div>
 
                             <div class="privacy-policy-box">
-                                <input type="checkbox" id="accept-privacy-policy" class="required">
-                                <label for="accept-privacy-policy">{"I agree to the "|i18n('extension/pt')}<a href={'/Support/Privacy-Policy'|ezurl} target="_blank">{"Privacy Policy"|i18n('extension/pt')}</a></label>
+                                <input type="checkbox" id="accept-privacy-policy" data-validation="required" data-validation-error-msg="{'Please indicate you agree to the Privacy Policy'|i18n('extension/pt'))}">
+                                <label for="accept-privacy-policy" data-validation="required">{"I agree to the "|i18n('extension/pt')}<a href={'/Support/Privacy-Policy'|ezurl} target="_blank">{"Privacy Policy"|i18n('extension/pt')}</a></label>
                             </div>
 
                             <div class="g-recaptcha" data-sitekey="{ezini( 'ReCaptcha', 'SiteKey', 'site.ini' )}" data-size="compact"></div>
@@ -192,3 +227,17 @@
 <div class="assistance center">Forms or support pages not loading? <a style="color: #39c;" target="_blank" href="https://support.philandteds.com/hc/en-us/articles/204251784">- Try this</a></div>
 
 {* end login wrapper *}
+
+<script type="text/javascript" src={'javascript/jquery.form-validator.min.js'|ezdesign()}></script>
+
+{literal}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $.validate({
+            'form': "form#register-tab"//,
+//            'scrollToTopOnError': false,
+//            'errorMessagePosition': 'inline'
+        });
+    });
+</script>
+{/literal}
