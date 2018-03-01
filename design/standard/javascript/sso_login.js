@@ -25,6 +25,9 @@ $(document).ready(function() {
         $("#login-tab input[name=LoginButton]").click(function() {
 
             var loginForm = $("form#login-tab");
+
+            showSpinner(loginForm);
+
             ajaxUserFormSubmit(loginForm);
             return false;
         }) ;
@@ -33,6 +36,12 @@ $(document).ready(function() {
         $("#register-tab input[name=PublishButton]").click(function() {
 
             var registerForm = $("form#register-tab");
+
+            // client-side validation to catch the obvious problems.
+            var valid = registerForm.isValid(null, {}, true);
+            if (!valid) {
+                return false;
+            }
 
             showSpinner(registerForm);
 
