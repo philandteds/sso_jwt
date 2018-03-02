@@ -51,6 +51,8 @@ $(document).ready(function() {
                 $("#register-email").val(), // email
                 null, // country
                 $("#email-opt-in").is(':checked'), // opt in
+                $("#first-name").val(), // first name
+                $("#last-name").val(), // last name
                 function()  { }, // success,
                 function() { // complete
                     // chain through to new user signup
