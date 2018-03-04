@@ -1,21 +1,12 @@
 $(document).ready(function() {
 
+    setLastAccessUri();
+
     // store last access URI, in case if login form is displayed non on login page (access denied)
     if( $(".login").length > 0 ) {
-        ssoDebugLog("Login div detected.");
+        ssoDebugLog("Login div detected. Attempting auto-login.");
 
-        if (document.URL.indexOf( '/user/login' ) === -1) {
-            // we're not on the login page, so we've landed somewhere that has an embedded login form.
-            //  Set the redirect URI, then forward through to the auto-login handling
-            ssoDebugLog("We are not on the login page, set last access URI.");
-
-            setLastAccessUri();
-        } else {
-            // we've just landed on the login page. Try and do the auto-login.
-            ssoDebugLog("We are on the login page. Proceed to auto-login.");
-
-            attemptAutoLogin();
-        }
+        attemptAutoLogin();
     }
 
     if (isCorsWithCredentialsSupported()) {
@@ -187,23 +178,34 @@ function attemptAutoLogin() {
 
 function setLastAccessUri() {
 
-    ssoDebugLog("setLastAccessUri()");
+    // use session storage to stash lastAccessUri
+    try {
+        var path = document.location.pathname;
 
-    showAutologinSpinner();
-
-    $.ajax( {
-        url: lastAccessUriUrl + "?uri=" + document.URL,
-        success: function() {
-            ssoDebugLog("Ajax success in setLastAccessUri(). Proceeding to autologin.");
-            attemptAutoLogin();
-        },
-        error: function(xhr, status) {
-            ssoDebugLog("Ajax failure in setLastAccessUri. Status: " + status + ". Showing login form.");
-            showLoginForm();
+        if (path.indexOf('/user/login') < 0 && path.indexOf("sso_jwt") < 0) {
+            sessionStorage.setItem("lastAccessUri", document.URL);
         }
-    } );
+    } catch (err) {}
+}
 
+function redirectToLastAccessUri() {
 
+    try {
+        var lastAccessUri = sessionStorage.getItem("lastAccessUri");
+        lastAccessUri = lastAccessUri != null ? lastAccessUri : '/';
+
+        // add a timestamp to the end of the URL, or the browser will tend to get the file straight from cache. Not what
+        // we want, now we've logged in and have some state to display.
+        var paramSeparator = "?";
+        if (lastAccessUri.indexOf("?") > 0) {
+            paramSeparator = "&"
+        }
+
+        lastAccessUri = lastAccessUri + paramSeparator + "_=" + new Date().getTime();
+
+        document.location.href = lastAccessUri;
+
+    } catch (err) {}
 
 }
 
@@ -214,5 +216,5 @@ function ssoDebugLog(message) {
                 console.log(message);
             }
         }
-    } catch(e) {}
+    } catch(err) {}
 }

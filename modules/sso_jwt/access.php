@@ -52,5 +52,12 @@ try {
 $http->setSessionVariable( 'eZUserLoggedInID', $user->attribute( 'contentobject_id' ) );
 eZContentObject::cleanupAllInternalDrafts( $user->attribute( 'contentobject_id' ) );
 
-$url = $http->sessionVariable( 'LastAccessesURI', '/' );
-return $module->redirectTo( $url );
+//$url = $http->sessionVariable( 'LastAccessesURI', '/' );
+//return $module->redirectTo( $url );
+
+// the subsequent template will redirect the user back to the variable stored in lastAccessUri sessionStorage
+$tpl = eZTemplate::factory();
+
+$Result            = array();
+$Result['content'] = $tpl->fetch( 'design:user/redirect_to_last_access_uri.tpl' );
+$Result['path']    = array();
