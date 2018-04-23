@@ -1,5 +1,36 @@
 {def $current_siteaccess='/'|ezurl(no, relative)}
 
+
+
+{* TODO remove inline styling *}
+{literal}
+    <style>        
+
+        input[type='checkbox'] {
+            width:auto;
+            margin-right:1rem;
+        }
+
+        a.trigger-show-register-tab {
+            color: white;
+        }
+
+
+        /* position error messages (plain input fields) */
+        .has-error .help-block {
+            margin-top: -8px;
+            margin-bottom: 12px;
+        }
+
+        /* and a special case for the privacy policy checkbox */
+        .privacy-policy-box.has-error .help-block {
+            margin-top: 0px;
+        }
+    </style>
+{/literal}
+
+
+
 <div id="login-check" class="text-center" style="display:none">
     <br/><br/>
     <img src={"/icons/spiffygif_24x24.gif"|ezimage} alt="" />
@@ -86,9 +117,9 @@
             <div class="reg">
 
 
-                <div class="sign_up question">
-                    <h2 class="title">New to {$site_name}? <span>- Register below to join the family</span></h2>
-                    <div class="register" >
+                <div class="sign_up question row">
+                    <h2 class="title col-xs-12">New to {$site_name}? <span>- Register below to join the family</span></h2>
+                    <div class="register col-xs-12 col-sm-8" >
 
                         {def $ajax_sso_login_url = concat( ezini( 'General', 'IdentityProviderURL', 'sso_jwt.ini' ), 'sso_jwt/loginajax/', ezini( 'General', 'CurrentServiceProvider', 'sso_jwt.ini' ), $current_siteaccess )|ezurl( 'no' )}
                         {def $sso_login_url = concat( ezini( 'General', 'IdentityProviderURL', 'sso_jwt.ini' ), 'sso_jwt/login/', ezini( 'General', 'CurrentServiceProvider', 'sso_jwt.ini' ) )|ezurl( 'no' )}
@@ -120,8 +151,7 @@
                         {* we need to be sure, there will be RegisterUserID in the session when sign-up form is submitted *}
                         <img src="{concat( ezini( 'General', 'IdentityProviderURL', 'sso_jwt.ini' ), 'user/register' )|ezurl( 'no' )}" style="width: 0px; height: 0px;"/>
 
-                    </div>
-                    <div class="reg_info">
+                    <div class="reg_info col-xs-12 col-sm-4">
                         <h3>{'Why Sign Up?'|i18n('design/standard/user')}</h3>
                         {*<img src="/extension/pt/design/pt/images/graphics/placeholder.jpg" alt="girl with questioning look" />*}
                         <p>{'Keep informed about product upgrades or safety announcements specific to your site_name product.'|i18n('design/standard/user', '', hash('site_name', $site_name))}</p>
