@@ -26,17 +26,6 @@
         .privacy-policy-box.has-error .help-block {
             margin-top: 0px;
         }
-
-        /* position error messages (plain input fields) */
-        .has-error .help-block {
-            margin-top: -8px;
-            margin-bottom: 12px;
-        }
-
-        /* and a special case for the privacy policy checkbox */
-        .privacy-policy-box.has-error .help-block {
-            margin-top: 0px;
-        }
     </style>
 {/literal}
 
@@ -135,7 +124,7 @@
 
                 <div class="sign_up question row">
                     <h2 class="title col-xs-12">New to {$site_name}? <span>- Register below to join the family</span></h2>
-                    <div class="register col-xs-12 col-sm-8" >
+                    <div class="register col-xs-12" >
 
                         {def $ajax_sso_login_url = concat( ezini( 'General', 'IdentityProviderURL', 'sso_jwt.ini' ), 'sso_jwt/loginajax/', ezini( 'General', 'CurrentServiceProvider', 'sso_jwt.ini' ), $current_siteaccess )|ezurl( 'no' )}
                         {def $sso_login_url = concat( ezini( 'General', 'IdentityProviderURL', 'sso_jwt.ini' ), 'sso_jwt/login/', ezini( 'General', 'CurrentServiceProvider', 'sso_jwt.ini' ) )|ezurl( 'no' )}
@@ -206,7 +195,7 @@
                         <img src="{concat( ezini( 'General', 'IdentityProviderURL', 'sso_jwt.ini' ), 'user/register' )|ezurl( 'no' )}" style="width: 0px; height: 0px;"/>
                     </div>
 
-                    <div class="reg_info col-xs-12 col-sm-4">
+                    <div class="reg_info col-xs-12">
                         <h3>{'Why Sign Up?'|i18n('design/standard/user')}</h3>
                         {*<img src="/extension/pt/design/pt/images/graphics/placeholder.jpg" alt="girl with questioning look" />*}
                         <p>{'Keep informed about product upgrades or safety announcements specific to your site_name product.'|i18n('design/standard/user', '', hash('site_name', $site_name))}</p>
