@@ -171,25 +171,20 @@
                             <div class="email-opt-in-box">
                                 <input type="checkbox" id="email-opt-in" name="email-opt-in">
                                 <label for="email-opt-in">{"sign me up for the latest news (you can unsubscribe at any time)."|i18n('extension/pt')}</label>
-                            </div>                          
-
+                            </div>
                             <div class="g-recaptcha" data-sitekey="{ezini( 'ReCaptcha', 'SiteKey', 'site.ini' )}" data-size="compact"></div>
-
                             <div>
                                 <input type="submit" name="PublishButton" value="{'Create an Account'|i18n('design/standard/user')}" />
-                                <div class="privacy-policy-box">
-                                    <input type="checkbox" id="accept-privacy-policy" data-validation="required" data-validation-error-msg="{'Please indicate you agree to the Privacy Policy'|i18n('extension/pt'))}">
-                                    <label for="accept-privacy-policy" data-validation="required">{"By creating your account you agree to our "|i18n('extension/pt')}
-                                        <a href={ '/Support/Privacy-Policy'|ezurl} target="_blank">{"Privacy Policy"|i18n('extension/pt')}</a>
-                                    </label>
-                                </div>
-                                <input type="hidden" name="new_user_data[RedirectAfterUserRegister]" value="{$sso_login_url}" data-sso-ajax-value="{$ajax_sso_login_url}" data-sso-ajax-name="ajax_RedirectAfterUserRegister"/>
-
+                                <p class="">{"By creating your account you agree to our "|i18n('extension/pt')}
+                                    <a href='../Support/Privacy-Policy' target="_blank">{"Privacy Policy"|i18n('extension/pt')}</a>
+                                </p>
+                                <input type="hidden" name="new_user_data[RedirectAfterUserRegister]" value="{$sso_login_url}" data-sso-ajax-value="{$ajax_sso_login_url}"
+                                    data-sso-ajax-name="ajax_RedirectAfterUserRegister" />
                                 <div style="display:none" class="spinner text-center">
-                                    <br/><br/>
-                                    <img src={"/icons/spiffygif_24x24.gif"|ezimage} alt="" />
+                                    <br/>
+                                    <br/>
+                                    <img src={ "/icons/spiffygif_24x24.gif"|ezimage} alt="" />
                                 </div>
-
                             </div>
                         </form>
                         {* we need to be sure, there will be RegisterUserID in the session when sign-up form is submitted *}
