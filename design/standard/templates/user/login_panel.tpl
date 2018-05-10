@@ -15,6 +15,11 @@
             color: white;
         }
 
+         @media (min-width: 768px) {
+            .sign_up.question {
+                width:750px
+            }
+        }
 
         /* position error messages (plain input fields) */
         .has-error .help-block {
