@@ -188,7 +188,7 @@
                                 <div style="display:none" class="spinner text-center">
                                     <br/>
                                     <br/>
-                                    <img src={ "/icons/spiffygif_24x24.gif"|ezimage} alt="" />
+                                    <img src={"/icons/spiffygif_24x24.gif"|ezimage} alt="" />
                                 </div>
                             </div>
                         </form>
