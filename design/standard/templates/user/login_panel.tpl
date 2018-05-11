@@ -4,13 +4,7 @@
 
 {* TODO remove inline styling *}
 {literal}
-    <style>
-        .email-opt-in-box, .privacy-policy-box {
-            margin-bottom: 15px;
-            padding: 1em;
-            border: 1px solid #cccccc;
-            width: 90%;
-        }
+    <style>        
 
         input[type='checkbox'] {
             width:auto;
@@ -21,9 +15,9 @@
             color: white;
         }
 
-        @media (min-width: 768px) {
+         @media (min-width: 768px) {
             .sign_up.question {
-                width: 750px;
+                width:750px
             }
         }
 
@@ -134,8 +128,8 @@
 
 
                 <div class="sign_up question row">
-                    <h2 class="title col-xs-12">New to {$site_name}? <span>- Register below to join the family</span></h2>
-                    <div class="register col-xs-12 col-sm-8" >
+                    <h2 class="title col-xs-12 col-sm-8">New to {$site_name}? <span>- Register below to join the family</span></h2>
+                    <div class="register col-xs-12" >
 
                         {def $ajax_sso_login_url = concat( ezini( 'General', 'IdentityProviderURL', 'sso_jwt.ini' ), 'sso_jwt/loginajax/', ezini( 'General', 'CurrentServiceProvider', 'sso_jwt.ini' ), $current_siteaccess )|ezurl( 'no' )}
                         {def $sso_login_url = concat( ezini( 'General', 'IdentityProviderURL', 'sso_jwt.ini' ), 'sso_jwt/login/', ezini( 'General', 'CurrentServiceProvider', 'sso_jwt.ini' ) )|ezurl( 'no' )}
@@ -181,25 +175,21 @@
                             {* emarsys *}
                             <div class="email-opt-in-box">
                                 <input type="checkbox" id="email-opt-in" name="email-opt-in">
-                                <label for="email-opt-in">{"I'd like to sign up to the email newsletter"|i18n('extension/pt')}</label>
+                                <label for="email-opt-in">{"sign me up for the latest news (you can unsubscribe at any time)."|i18n('extension/pt')}</label>
                             </div>
-
-                            <div class="privacy-policy-box">
-                                <input type="checkbox" id="accept-privacy-policy" data-validation="required" data-validation-error-msg="{'Please indicate you agree to the Privacy Policy'|i18n('extension/pt'))}">
-                                <label for="accept-privacy-policy" data-validation="required">{"I agree to the "|i18n('extension/pt')}<a href={'/Support/Privacy-Policy'|ezurl} target="_blank">{"Privacy Policy"|i18n('extension/pt')}</a></label>
-                            </div>
-
                             <div class="g-recaptcha" data-sitekey="{ezini( 'ReCaptcha', 'SiteKey', 'site.ini' )}" data-size="compact"></div>
-
                             <div>
                                 <input type="submit" name="PublishButton" value="{'Create an Account'|i18n('design/standard/user')}" />
-                                <input type="hidden" name="new_user_data[RedirectAfterUserRegister]" value="{$sso_login_url}" data-sso-ajax-value="{$ajax_sso_login_url}" data-sso-ajax-name="ajax_RedirectAfterUserRegister"/>
-
+                                <p class="">{"By creating your account you agree to our "|i18n('extension/pt')}
+                                    <a href='../Support/Privacy-Policy' target="_blank">{"Privacy Policy"|i18n('extension/pt')}</a>
+                                </p>
+                                <input type="hidden" name="new_user_data[RedirectAfterUserRegister]" value="{$sso_login_url}" data-sso-ajax-value="{$ajax_sso_login_url}"
+                                    data-sso-ajax-name="ajax_RedirectAfterUserRegister" />
                                 <div style="display:none" class="spinner text-center">
-                                    <br/><br/>
-                                    <img src={"/icons/spiffygif_24x24.gif"|ezimage} alt="" />
+                                    <br/>
+                                    <br/>
+                                    <img src={ "/icons/spiffygif_24x24.gif"|ezimage} alt="" />
                                 </div>
-
                             </div>
                         </form>
                         {* we need to be sure, there will be RegisterUserID in the session when sign-up form is submitted *}
@@ -207,7 +197,7 @@
                     </div>
 
                     <div class="reg_info col-xs-12 col-sm-4">
-                        <h3>{'Why Sign Up?'|i18n('design/standard/user')}</h3>
+                        <h2>{'Why Sign Up?'|i18n('design/standard/user')}</h2>
                         {*<img src="/extension/pt/design/pt/images/graphics/placeholder.jpg" alt="girl with questioning look" />*}
                         <p>{'Keep informed about product upgrades or safety announcements specific to your site_name product.'|i18n('design/standard/user', '', hash('site_name', $site_name))}</p>
                         <ul>
