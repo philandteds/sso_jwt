@@ -5,12 +5,6 @@
 {* TODO remove inline styling *}
 {literal}
     <style>
-        .email-opt-in-box, .privacy-policy-box {
-            margin-bottom: 15px;
-            padding: 1em;
-            border: 1px solid #cccccc;
-            width: 90%;
-        }
 
         input[type='checkbox'] {
             width:auto;
