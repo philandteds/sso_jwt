@@ -5,12 +5,6 @@
 {* TODO remove inline styling *}
 {literal}
     <style>
-        .email-opt-in-box, .privacy-policy-box {
-            margin-bottom: 15px;
-            padding: 1em;
-            border: 1px solid #cccccc;
-            width: 90%;
-        }
 
         input[type='checkbox'] {
             width:auto;
@@ -36,6 +30,11 @@
         /* and a special case for the privacy policy checkbox */
         .privacy-policy-box.has-error .help-block {
             margin-top: 0px;
+        }
+
+        .login-pp {
+            margin-top: 10px;
+            text-align: center;
         }
     </style>
 {/literal}
@@ -179,7 +178,7 @@
                             <div class="g-recaptcha" data-sitekey="{ezini( 'ReCaptcha', 'SiteKey', 'site.ini' )}" data-size="normal"></div>
                             <div>
                                 <input type="submit" name="PublishButton" value="{'Create an Account'|i18n('design/standard/user')}" />
-                                <p class="">{"By creating your account you agree to our "|i18n('extension/pt')}
+                                <p class="login-pp">{"By creating your account you agree to our "|i18n('extension/pt')}
                                     <a href='../Support/Privacy-Policy' target="_blank">{"Privacy Policy"|i18n('extension/pt')}</a>
                                 </p>
                                 <input type="hidden" name="new_user_data[RedirectAfterUserRegister]" value="{$sso_login_url}" data-sso-ajax-value="{$ajax_sso_login_url}"
