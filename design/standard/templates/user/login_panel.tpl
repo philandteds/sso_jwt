@@ -4,7 +4,13 @@
 
 {* TODO remove inline styling *}
 {literal}
-    <style>        
+    <style>
+        .email-opt-in-box, .privacy-policy-box {
+            margin-bottom: 15px;
+            padding: 1em;
+            border: 1px solid #cccccc;
+            width: 90%;
+        }
 
         input[type='checkbox'] {
             width:auto;
@@ -15,9 +21,9 @@
             color: white;
         }
 
-         @media (min-width: 768px) {
+        @media (min-width: 768px) {
             .sign_up.question {
-                width:750px
+                width: 750px;
             }
         }
 
@@ -129,7 +135,7 @@
 
                 <div class="sign_up question row">
                     <h2 class="title col-xs-12 col-sm-8">New to {$site_name}? <span>- Register below to join the family</span></h2>
-                    <div class="register col-xs-12" >
+                    <div class="register col-xs-12 col-sm-8" >
 
                         {def $ajax_sso_login_url = concat( ezini( 'General', 'IdentityProviderURL', 'sso_jwt.ini' ), 'sso_jwt/loginajax/', ezini( 'General', 'CurrentServiceProvider', 'sso_jwt.ini' ), $current_siteaccess )|ezurl( 'no' )}
                         {def $sso_login_url = concat( ezini( 'General', 'IdentityProviderURL', 'sso_jwt.ini' ), 'sso_jwt/login/', ezini( 'General', 'CurrentServiceProvider', 'sso_jwt.ini' ) )|ezurl( 'no' )}
@@ -142,24 +148,17 @@
                                 {* ajax errors will be inserted here *}
                             </div>
 
-                            <div>
-                                <input class="halfbox" type="text" placeholder="{'First name'|i18n('extension/pt')}" name="new_user_data[first_name]" value="" data-sso-ajax-name="ajax_first_name"
-                                       id="first-name" data-validation="required" data-validation-error-msg="{'Please tell us your first name'|i18n('extension/pt')}"
-                                />
-                            </div>
+                            <input class="halfbox" type="text" placeholder="{'First name'|i18n('extension/pt')}" name="new_user_data[first_name]" value="" data-sso-ajax-name="ajax_first_name" />
+                            <input type="text" placeholder="{'Last name'|i18n('extension/pt')}" name="new_user_data[last_name]" value="" data-sso-ajax-name="ajax_last_name"/>
+                            <input type="text" id="register-email" placeholder="{'Email'|i18n('extension/pt')}" name="new_user_data[email]" value="" data-sso-ajax-name="ajax_email"/>
+                            <input type="password" placeholder="{'Password'|i18n('extension/pt')}" name="new_user_data[password]" value="" data-sso-ajax-name="ajax_password"/>
+                            <input type="password" placeholder="{'Password confirm'|i18n('extension/pt')}" name="new_user_data[password_confirm]" value="" data-sso-ajax-name="ajax_password_confirm"/>
 
                             <div>
                                 <input type="text" placeholder="{'Last name'|i18n('extension/pt')}" name="new_user_data[last_name]" value="" data-sso-ajax-name="ajax_last_name"
                                        id="last-name" data-validation="required" data-validation-error-msg="{'Please tell us your last name'|i18n('extension/pt')}"
                                 />
                             </div>
-
-                            <div>
-                                <input type="text" id="register-email" placeholder="{'Email'|i18n('extension/pt')}" name="new_user_data[email]" value="" data-sso-ajax-name="ajax_email"
-                                       id="email" data-validation="required email" data-validation-error-msg="{'Please enter your email address'|i18n('extension/pt')}"
-                                />
-                            </div>
-
                             <div>
                                 <input type="password" placeholder="{'Password'|i18n('extension/pt')}" name="new_user_data[password]" value="" data-sso-ajax-name="ajax_password"
                                        id="password" data-validation="required" data-validation-error-msg="{'Please give yourself a password'|i18n('extension/pt')}"
@@ -177,7 +176,7 @@
                                 <input type="checkbox" id="email-opt-in" name="email-opt-in">
                                 <label for="email-opt-in">{"sign me up for the latest news (you can unsubscribe at any time)."|i18n('extension/pt')}</label>
                             </div>
-                            <div class="g-recaptcha" data-sitekey="{ezini( 'ReCaptcha', 'SiteKey', 'site.ini' )}" data-size="compact"></div>
+                            <div class="g-recaptcha" data-sitekey="{ezini( 'ReCaptcha', 'SiteKey', 'site.ini' )}" data-size="normal"></div>
                             <div>
                                 <input type="submit" name="PublishButton" value="{'Create an Account'|i18n('design/standard/user')}" />
                                 <p class="">{"By creating your account you agree to our "|i18n('extension/pt')}
@@ -197,7 +196,7 @@
                     </div>
 
                     <div class="reg_info col-xs-12 col-sm-4">
-                        <h2>{'Why Sign Up?'|i18n('design/standard/user')}</h2>
+                        <h3>{'Why Sign Up?'|i18n('design/standard/user')}</h3>
                         {*<img src="/extension/pt/design/pt/images/graphics/placeholder.jpg" alt="girl with questioning look" />*}
                         <p>{'Keep informed about product upgrades or safety announcements specific to your site_name product.'|i18n('design/standard/user', '', hash('site_name', $site_name))}</p>
                         <ul>
