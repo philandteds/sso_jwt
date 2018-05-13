@@ -135,7 +135,7 @@
 
                 <div class="sign_up question row">
                     <h2 class="title col-xs-12 col-sm-8">New to {$site_name}? <span>- Register below to join the family</span></h2>
-                    <div class="register col-xs-12  col-sm-8" >
+                    <div class="register col-xs-12 col-sm-8" >
 
                         {def $ajax_sso_login_url = concat( ezini( 'General', 'IdentityProviderURL', 'sso_jwt.ini' ), 'sso_jwt/loginajax/', ezini( 'General', 'CurrentServiceProvider', 'sso_jwt.ini' ), $current_siteaccess )|ezurl( 'no' )}
                         {def $sso_login_url = concat( ezini( 'General', 'IdentityProviderURL', 'sso_jwt.ini' ), 'sso_jwt/login/', ezini( 'General', 'CurrentServiceProvider', 'sso_jwt.ini' ) )|ezurl( 'no' )}
@@ -159,14 +159,6 @@
                                        id="last-name" data-validation="required" data-validation-error-msg="{'Please tell us your last name'|i18n('extension/pt')}"
                                 />
                             </div>
-
-                            <div class="privacy-policy-box">
-                                <input type="checkbox" id="accept-privacy-policy" class="required">
-                                <label for="accept-privacy-policy">{"I agree to the "|i18n('extension/pt')}<a href={'/Support/Privacy-Policy'|ezurl} target="_blank">{"Privacy Policy"|i18n('extension/pt')}</a></label>
-                            </div>
-
-                            <div class="g-recaptcha" data-sitekey="{ezini( 'ReCaptcha', 'SiteKey', 'site.ini' )}" data-size="compact"></div>
-
                             <div>
                                 <input type="password" placeholder="{'Password'|i18n('extension/pt')}" name="new_user_data[password]" value="" data-sso-ajax-name="ajax_password"
                                        id="password" data-validation="required" data-validation-error-msg="{'Please give yourself a password'|i18n('extension/pt')}"
@@ -184,7 +176,7 @@
                                 <input type="checkbox" id="email-opt-in" name="email-opt-in">
                                 <label for="email-opt-in">{"sign me up for the latest news (you can unsubscribe at any time)."|i18n('extension/pt')}</label>
                             </div>
-                            <div class="g-recaptcha" data-sitekey="{ezini( 'ReCaptcha', 'SiteKey', 'site.ini' )}" data-size="compact"></div>
+                            <div class="g-recaptcha" data-sitekey="{ezini( 'ReCaptcha', 'SiteKey', 'site.ini' )}" data-size="normal"></div>
                             <div>
                                 <input type="submit" name="PublishButton" value="{'Create an Account'|i18n('design/standard/user')}" />
                                 <p class="">{"By creating your account you agree to our "|i18n('extension/pt')}
