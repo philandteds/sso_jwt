@@ -153,23 +153,6 @@
                             <input type="password" placeholder="{'Password'|i18n('extension/pt')}" name="new_user_data[password]" value="" data-sso-ajax-name="ajax_password"/>
                             <input type="password" placeholder="{'Password confirm'|i18n('extension/pt')}" name="new_user_data[password_confirm]" value="" data-sso-ajax-name="ajax_password_confirm"/>
 
-                            <div>
-                                <input type="text" placeholder="{'Last name'|i18n('extension/pt')}" name="new_user_data[last_name]" value="" data-sso-ajax-name="ajax_last_name"
-                                       id="last-name" data-validation="required" data-validation-error-msg="{'Please tell us your last name'|i18n('extension/pt')}"
-                                />
-                            </div>
-                            <div>
-                                <input type="password" placeholder="{'Password'|i18n('extension/pt')}" name="new_user_data[password]" value="" data-sso-ajax-name="ajax_password"
-                                       id="password" data-validation="required" data-validation-error-msg="{'Please give yourself a password'|i18n('extension/pt')}"
-                                />
-                            </div>
-
-                            <div>
-                                <input type="password" placeholder="{'Password confirm'|i18n('extension/pt')}" name="new_user_data[password_confirm]" value="" data-sso-ajax-name="ajax_password_confirm"
-                                       id="password-confirm" data-validation="required" data-validation-error-msg="{'Please confirm your password'|i18n('extension/pt')}"
-                                />
-                            </div>
-
                             {* emarsys *}
                             <div class="email-opt-in-box">
                                 <input type="checkbox" id="email-opt-in" name="email-opt-in">
