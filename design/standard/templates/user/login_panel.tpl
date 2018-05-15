@@ -199,15 +199,15 @@
 
 {* end login wrapper *}
 
-<script type="text/javascript" src={'javascript/jquery.form-validator.min.js'|ezdesign()}></script>
-
 {literal}
 <script type="text/javascript">
-    $(document).ready(function() {
-        $.validate({
-            'form': "form#register-tab"//,
-//            'scrollToTopOnError': false,
-//            'errorMessagePosition': 'inline'
+    head(function(){
+        $(document).ready(function() {
+            $.validate({
+                'form': "form#register-tab"//,
+//                'scrollToTopOnError': false,
+//                'errorMessagePosition': 'inline'
+            });
         });
     });
 </script>
