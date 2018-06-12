@@ -1,10 +1,14 @@
-{def $current_siteaccess='/'|ezurl(no, relative)}
-
-
+{def $current_siteaccess='/'|ezurl(no, relative)
+     $countries = ezini('CountrySettings','Countries', 'content.ini' )
+}
 
 {* TODO remove inline styling *}
 {literal}
     <style>
+
+        input[type='text'], input[type='password'], .register input[type='submit'] {
+            width: 100%;
+        }
 
         input[type='checkbox'] {
             width:auto;
@@ -140,7 +144,7 @@
                         {def $sso_login_url = concat( ezini( 'General', 'IdentityProviderURL', 'sso_jwt.ini' ), 'sso_jwt/login/', ezini( 'General', 'CurrentServiceProvider', 'sso_jwt.ini' ) )|ezurl( 'no' )}
                         <form id="register-tab" enctype="multipart/form-data"
                               data-sso-ajax-action={concat( ezini( 'General', 'IdentityProviderURL', 'sso_jwt.ini' ), 'sso_jwt/registerajax' )|ezurl}
-                              data-emarsys-signup-url={'emarsys/signup'|ezurl}
+                              data-emarsys-signup-url={'emarsys/signup'|ezroot}
                               action={concat( ezini( 'General', 'IdentityProviderURL', 'sso_jwt.ini' ), 'sso_jwt/register' )|ezurl} method="POST" name="Register">
 
                             <div class="error-container">
@@ -160,12 +164,20 @@
                                 <input type="password" placeholder="{'Password'|i18n('extension/pt')}" name="new_user_data[password]" value="" data-sso-ajax-name="ajax_password" id="password" data-validation="required" data-validation-error-msg="{'Please give yourself a password'|i18n('extension/pt')}"
                                 />
                             </div>
-                            
                             <div>
                                 <input type="password" placeholder="{'Password confirm'|i18n('extension/pt')}" name="new_user_data[password_confirm]" value=""
                                     data-sso-ajax-name="ajax_password_confirm" id="password-confirm" data-validation="required" data-validation-error-msg="{'Please confirm your password'|i18n('extension/pt')}"
                                 />
                             </div>
+                            <div>
+                                <select name="country" id="country" class="form-control" data-validation="required">
+                                    <option value="Select a country" disabled selected>Select a country</option>
+                                    {foreach $countries as $country}
+                                        <option value="{$country|wash(xhtml)}">{$country|wash(xhtml)}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
+
                             {* emarsys *}
                             <div class="email-opt-in-box">
                                 <input type="checkbox" id="email-opt-in" name="email-opt-in">
@@ -216,12 +228,19 @@
 <script type="text/javascript">
     head(function(){
         $(document).ready(function() {
+
+            // attempt to default the country box from the siteaccess select list
+            try {
+                var currentSiteaccess = $(".languages-nav-current:first a").text();
+                $("form#register-tab").find("select[name='country']").val(currentSiteaccess);
+            } catch (err) {}
+
             $.validate({
-                'form': "form#register-tab"//,
-//                'scrollToTopOnError': false,
-//                'errorMessagePosition': 'inline'
+                'form': "form#register-tab"
             });
         });
     });
 </script>
+
+
 {/literal}

@@ -49,7 +49,7 @@ $(document).ready(function() {
             submitEmarsysNewsletterSignup(
                 registerForm.attr('data-emarsys-signup-url'),
                 $("#register-email").val(), // email
-                null, // country
+                $("#country").val(), // country
                 $("#email-opt-in").is(':checked'), // opt in
                 $("#first-name").val(), // first name
                 $("#last-name").val(), // last name
