@@ -5,6 +5,14 @@
 {* TODO remove inline styling *}
 {literal}
     <style>
+        .js .login {
+            display: none;
+        }
+
+        .js #login-check {
+            display: block;
+        }
+
 
         input[type='text'], input[type='password'], .register input[type='submit'] {
             width: 100%;
@@ -88,7 +96,7 @@
 
                 {* old school login *}
                 <div class="services internal">
-                    <form id="login-tab" method="post" action="{ezini( 'General', 'IdentityProviderURL', 'sso_jwt.ini' )}user/login">
+                    <form id="login-tab" method="post" action="{ezini( 'General', 'IdentityProviderURL', 'sso_jwt.ini' )}user/login?XDEBUG_SESSION_START=PHPSTORM">
                         <div id="login_full">
 
                             <div class="error-container">

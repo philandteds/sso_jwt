@@ -167,6 +167,14 @@ function showLoginForm() {
 }
 
 function isCorsWithCredentialsSupported() {
+    // explicitly disallow iOS devices from Ajax logins. They refuse third-party cookies unless you explicitly
+    // visit the originating site, which means that the session cookie never gets created on the IDP.
+
+    var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
+    if (iOS) {
+        return false;
+    }
+
     if ('withCredentials' in new XMLHttpRequest()) {
         ssoDebugLog("CORS with credentials is supported.");
         return true;
