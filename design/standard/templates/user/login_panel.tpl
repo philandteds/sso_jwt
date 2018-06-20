@@ -1,5 +1,5 @@
 {def $current_siteaccess='/'|ezurl(no, relative)}
-
+{def $countries = ezini('CountrySettings','Countries', 'content.ini' )}
 
 
 {* TODO remove inline styling *}
@@ -153,6 +153,15 @@
                                 <input type="text" placeholder="{'Last name'|i18n('extension/pt')}" name="new_user_data[last_name]" value="" data-sso-ajax-name="ajax_last_name" id="last-name" data-validation="required" data-validation-error-msg="{'Please tell us your last name'|i18n('extension/pt')}"
                                 />
                             </div>
+                            <div class="">
+                                <select name="country" class="form-control" data-validation="required">
+                                    <option value="Select a country" disabled selected>Select a country</option>
+                                    {foreach $countries as $country}
+                                    <option value="{$country|wash(xhtml)}">{$country|wash(xhtml)}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
+                            <hr>
                             <div>
                                 <input type="text" id="register-email" placeholder="{'Email'|i18n('extension/pt')}" name="new_user_data[email]" data-validation="required" value="" data-sso-ajax-name="ajax_email" data-validation-error-msg="{'Please use a valid email'|i18n('extension/pt')}"/>
                             </div>
