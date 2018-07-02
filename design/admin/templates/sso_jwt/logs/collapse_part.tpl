@@ -4,7 +4,7 @@
 }
 <div class="panel panel-{$css_class}">
     <div class="panel-heading">
-        <h4 class="panel-title"><a data-toggle="collapse" href="#collapse{$id}"{if $is_collapsed} class="collapsed"{/if}>{$title|i18n( 'extension/sso_jwt' )}</a></h4>
+        <h4 class="panel-title"><a data-toggle="collapse" href="#collapse{$id}"{if $is_collapsed} class="collapsed"{/if}>{$title|d18n( 'extension/sso_jwt' )}</a></h4>
     </div>
     <div class="panel-collapse{if $is_collapsed} collapse{/if}" id="collapse{$id}">
         <div class="panel-body u-padding-a-n">
