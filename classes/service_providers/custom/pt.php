@@ -208,9 +208,10 @@ class SSOJWTServiceProviderHandlerEZPT extends SSOJWTServiceProviderHandlerEZ {
         $params = array(
             'parent_node_id'   => $parentNode->attribute( 'node_id' ),
             'class_identifier' => 'user',
-            'attributes'       => $attribtues
+            'attributes'       => $attribtues,
+            'language'         => self::LANGUAGE_CODE
         );
-        $object = eZContentFunctions::createAndPublishObject( $params );
+        $object = ContentSyncContentFunctions::createAndPublishObject( $params );
         if( $object instanceof eZContentObject === false ) {
             throw new Exception( 'New user creation error' );
         }

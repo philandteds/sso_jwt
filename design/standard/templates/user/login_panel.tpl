@@ -1,4 +1,49 @@
-{def $current_siteaccess='/'|ezurl(no, relative)}
+{def $current_siteaccess='/'|ezurl(no, relative)
+     $countries = ezini('CountrySettings','Countries', 'content.ini' )
+}
+
+{* TODO remove inline styling *}
+{literal}
+    <style>
+
+        input[type='text'], input[type='password'], .register input[type='submit'] {
+            width: 100%;
+        }
+
+        input[type='checkbox'] {
+            width:auto;
+            margin-right:1rem;
+        }
+
+        a.trigger-show-register-tab {
+            color: white;
+        }
+
+        @media (min-width: 768px) {
+            .sign_up.question {
+                width: 750px;
+            }
+        }
+
+        /* position error messages (plain input fields) */
+        .has-error .help-block {
+            margin-top: -8px;
+            margin-bottom: 12px;
+        }
+
+        /* and a special case for the privacy policy checkbox */
+        .privacy-policy-box.has-error .help-block {
+            margin-top: 0px;
+        }
+
+        .login-pp {
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+{/literal}
+
+
 
 <div id="login-check" class="text-center" style="display:none">
     <br/><br/>
@@ -77,51 +122,87 @@
                     </div>
                     {* end forgot passwd *}
 
+                    <div class="text-center">
+                        <a href="#" class="btn btn-primary trigger-show-register-tab">No account yet?</a>
+                    </div>
+
                 </div>
                 {* end old school login *}
 
             </div>
-            {* end main box *} </div>
+            {* end main box *}
+        </div>
         <div role="tabpanel" class="tab-pane fade" id="profile" aria-labelledby="profile-tab"> {* new sign up *}
             <div class="reg">
 
 
-                <div class="sign_up question">
-                    <h2 class="title">New to {$site_name}? <span>- Register below to join the family</span></h2>
-                    <div class="register" >
+                <div class="sign_up question row">
+                    <h2 class="title col-xs-12 col-sm-8">New to {$site_name}? <span>- Register below to join the family</span></h2>
+                    <div class="register col-xs-12 col-sm-8" >
 
                         {def $ajax_sso_login_url = concat( ezini( 'General', 'IdentityProviderURL', 'sso_jwt.ini' ), 'sso_jwt/loginajax/', ezini( 'General', 'CurrentServiceProvider', 'sso_jwt.ini' ), $current_siteaccess )|ezurl( 'no' )}
                         {def $sso_login_url = concat( ezini( 'General', 'IdentityProviderURL', 'sso_jwt.ini' ), 'sso_jwt/login/', ezini( 'General', 'CurrentServiceProvider', 'sso_jwt.ini' ) )|ezurl( 'no' )}
                         <form id="register-tab" enctype="multipart/form-data"
                               data-sso-ajax-action={concat( ezini( 'General', 'IdentityProviderURL', 'sso_jwt.ini' ), 'sso_jwt/registerajax' )|ezurl}
+                              data-emarsys-signup-url={'emarsys/signup'|ezroot}
                               action={concat( ezini( 'General', 'IdentityProviderURL', 'sso_jwt.ini' ), 'sso_jwt/register' )|ezurl} method="POST" name="Register">
 
                             <div class="error-container">
                                 {* ajax errors will be inserted here *}
                             </div>
-
-                            <input class="halfbox" type="text" placeholder="{'First name'|i18n('extension/pt')}" name="new_user_data[first_name]" value="" data-sso-ajax-name="ajax_first_name" />
-                            <input type="text" placeholder="{'Last name'|i18n('extension/pt')}" name="new_user_data[last_name]" value="" data-sso-ajax-name="ajax_last_name"/>
-                            <input type="text" placeholder="{'Email'|i18n('extension/pt')}" name="new_user_data[email]" value="" data-sso-ajax-name="ajax_email"/>
-                            <input type="password" placeholder="{'Password'|i18n('extension/pt')}" name="new_user_data[password]" value="" data-sso-ajax-name="ajax_password"/>
-                            <input type="password" placeholder="{'Password confirm'|i18n('extension/pt')}" name="new_user_data[password_confirm]" value="" data-sso-ajax-name="ajax_password_confirm"/>
-                            <div class="g-recaptcha" data-sitekey="{ezini( 'ReCaptcha', 'SiteKey', 'site.ini' )}"></div>
                             <div>
-                                <input type="submit" name="PublishButton" value="{'Register'|i18n('design/standard/user')}" />
-                                <input type="hidden" name="new_user_data[RedirectAfterUserRegister]" value="{$sso_login_url}" data-sso-ajax-value="{$ajax_sso_login_url}" data-sso-ajax-name="ajax_RedirectAfterUserRegister"/>
+                                <input class="halfbox" type="text" id="first-name" data-validation="required"  placeholder="{'First name'|i18n('extension/pt')}" name="new_user_data[first_name]" value="" data-sso-ajax-name="ajax_first_name" data-validation-error-msg="{'Please tell us your first name'|i18n('extension/pt')}"/>
+                            </div>
+                            <div>
+                                <input type="text" placeholder="{'Last name'|i18n('extension/pt')}" name="new_user_data[last_name]" value="" data-sso-ajax-name="ajax_last_name" id="last-name" data-validation="required" data-validation-error-msg="{'Please tell us your last name'|i18n('extension/pt')}"
+                                />
+                            </div>
+                            <div>
+                                <input type="text" id="register-email" placeholder="{'Email'|i18n('extension/pt')}" name="new_user_data[email]" data-validation="required" value="" data-sso-ajax-name="ajax_email" data-validation-error-msg="{'Please use a valid email'|i18n('extension/pt')}"/>
+                            </div>
+                            <div>
+                                <input type="password" placeholder="{'Password'|i18n('extension/pt')}" name="new_user_data[password]" value="" data-sso-ajax-name="ajax_password" id="password" data-validation="required" data-validation-error-msg="{'Please give yourself a password'|i18n('extension/pt')}"
+                                />
+                            </div>
+                            <div>
+                                <input type="password" placeholder="{'Password confirm'|i18n('extension/pt')}" name="new_user_data[password_confirm]" value=""
+                                    data-sso-ajax-name="ajax_password_confirm" id="password-confirm" data-validation="required" data-validation-error-msg="{'Please confirm your password'|i18n('extension/pt')}"
+                                />
+                            </div>
+                            <div>
+                                <select name="country" id="country" class="form-control" data-validation="required">
+                                    <option value="Select a country" disabled selected>Select a country</option>
+                                    {foreach $countries as $country}
+                                        <option value="{$country|wash(xhtml)}">{$country|wash(xhtml)}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
 
+                            {* emarsys *}
+                            <div class="email-opt-in-box">
+                                <input type="checkbox" id="email-opt-in" name="email-opt-in">
+                                <label for="email-opt-in">{"sign me up for the latest news (you can unsubscribe at any time)."|i18n('extension/pt')}</label>
+                            </div>
+                            <div class="g-recaptcha" data-sitekey="{ezini( 'ReCaptcha', 'SiteKey', 'site.ini' )}" data-size="normal"></div>
+                            <div>
+                                <input type="submit" name="PublishButton" value="{'Create an Account'|i18n('design/standard/user')}" />
+                                <p class="login-pp">{"By creating your account you agree to our "|i18n('extension/pt')}
+                                    <a href='../Support/Privacy-Policy' target="_blank">{"Privacy Policy"|i18n('extension/pt')}</a>
+                                </p>
+                                <input type="hidden" name="new_user_data[RedirectAfterUserRegister]" value="{$sso_login_url}" data-sso-ajax-value="{$ajax_sso_login_url}"
+                                    data-sso-ajax-name="ajax_RedirectAfterUserRegister" />
                                 <div style="display:none" class="spinner text-center">
-                                    <br/><br/>
+                                    <br/>
+                                    <br/>
                                     <img src={"/icons/spiffygif_24x24.gif"|ezimage} alt="" />
                                 </div>
-
                             </div>
                         </form>
                         {* we need to be sure, there will be RegisterUserID in the session when sign-up form is submitted *}
                         <img src="{concat( ezini( 'General', 'IdentityProviderURL', 'sso_jwt.ini' ), 'user/register' )|ezurl( 'no' )}" style="width: 0px; height: 0px;"/>
-
                     </div>
-                    <div class="reg_info">
+
+                    <div class="reg_info col-xs-12 col-sm-4">
                         <h3>{'Why Sign Up?'|i18n('design/standard/user')}</h3>
                         {*<img src="/extension/pt/design/pt/images/graphics/placeholder.jpg" alt="girl with questioning look" />*}
                         <p>{'Keep informed about product upgrades or safety announcements specific to your site_name product.'|i18n('design/standard/user', '', hash('site_name', $site_name))}</p>
@@ -142,3 +223,24 @@
 <div class="assistance center">Forms or support pages not loading? <a style="color: #39c;" target="_blank" href="https://support.philandteds.com/hc/en-us/articles/204251784">- Try this</a></div>
 
 {* end login wrapper *}
+
+{literal}
+<script type="text/javascript">
+    head(function(){
+        $(document).ready(function() {
+
+            // attempt to default the country box from the siteaccess select list
+            try {
+                var currentSiteaccess = $(".languages-nav-current:first a").text();
+                $("form#register-tab").find("select[name='country']").val(currentSiteaccess);
+            } catch (err) {}
+
+            $.validate({
+                'form': "form#register-tab"
+            });
+        });
+    });
+</script>
+
+
+{/literal}
