@@ -28,7 +28,7 @@ $(document).ready(function() {
         }) ;
 
 
-        $("input[name=PublishButton]").click(function() {
+        $("form#register-tab input[name=PublishButton]").click(function() {
 
             var registerForm = $("form#register-tab");
             ajaxUserFormSubmit(registerForm);
