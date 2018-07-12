@@ -1,7 +1,7 @@
 {def $current_siteaccess='/'|ezurl(no, relative)
         $locale = ezini('RegionalSettings','ContentObjectLocale')
         $locale_ini = concat($locale,'.ini')
-        $countries = ezini('CountryNames','Countries', $locale_ini, 'share/locale', true() )
+        $countries = cond( ezini_hasvariable('CountryNames','Countries', $locale_ini, 'share/locale', true() ), ezini('CountryNames','Countries', $locale_ini, 'share/locale', true() ), true(), ezini('CountrySettings','Countries','content.ini') )
         $country_eng = ''
 }
 
@@ -177,7 +177,7 @@
                                 <select name="country" id="country" class="form-control" data-validation="required">
                                     <option value="Select a country" disabled selected>{"Select a country"|i18n('user/login')}</option>
                                     {foreach $countries as $two_char => $country}
-                                        {set $country_eng = ezini($two_char, 'Name', 'country.ini')}
+                                        {set $country_eng = cond( is_integer($two_char), $country, true(), ezini($two_char, 'Name', 'country.ini') )}
                                         <option value="{$country_eng|wash(xhtml)}">{$country|wash(xhtml)}</option>
                                     {/foreach}
                                 </select>
