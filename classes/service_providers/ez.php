@@ -98,7 +98,23 @@ class SSOJWTServiceProviderHandlerEZ extends SSOJWTServiceProviderHandler {
         // try to fetch existing user
         $user = eZUser::fetchByEmail( $token['email'] );
         if( $user instanceof eZUser ) {
-            return $user;
+            $contentObject = $user->contentObject();
+
+            $userValid = true;
+            if ($contentObject) {
+                if ($contentObject->attribute('status') == eZContentObject::STATUS_DRAFT) {
+                    $contentObject->removeThis(); // an incomplete publish has left this object in an incomplete state. Remove it and recreate.
+                    $userValid = false;
+                }
+            } else {
+                // an eZUser with no content object. Delete it.
+                $user->remove();
+                $userValid = false;
+            }
+
+            if ($userValid ) {
+                return $user; // if this user appears well-formed, return it. Otherwise, fall through to creating a new user.
+            }
         }
 
         // create new user
@@ -109,19 +125,26 @@ class SSOJWTServiceProviderHandlerEZ extends SSOJWTServiceProviderHandler {
         }
 
         $password   = md5( eZUser::createPassword( 16 ) );
-        $attribtues = array(
+        $attributes = array(
             'user_account' => $token['login'] . '|' . $token['email'] . '|md5_password|' . $password . '|1'
         );
         $attrs      = $this->getUserAttributes();
         foreach( $attrs as $identifier ) {
-            $attribtues[$identifier] = isset( $token[$identifier] ) ? $token[$identifier] : null;
+            $attributes[$identifier] = isset( $token[$identifier] ) ? $token[$identifier] : null;
         }
 
         $params = array(
             'parent_node_id'   => $parentNode->attribute( 'node_id' ),
             'class_identifier' => 'user',
-            'attributes'       => $attribtues
+            'attributes'       => $attributes
         );
+
+        // run publishing immediately (no async)
+        $behaviour = new ezpContentPublishingBehaviour();
+        $behaviour->isTemporary = true;
+        $behaviour->disableAsynchronousPublishing = true;
+        ezpContentPublishingBehaviour::setBehaviour( $behaviour );
+
         $object = eZContentFunctions::createAndPublishObject( $params );
         if( $object instanceof eZContentObject === false ) {
             throw new Exception( 'New user creation error' );
@@ -132,7 +155,7 @@ class SSOJWTServiceProviderHandlerEZ extends SSOJWTServiceProviderHandler {
     }
 
     /**
-     * Returns array of usar attributes which will be included in the token
+     * Returns array of user attributes which will be included in the token
      * @return []
      */
     public function getUserAttributes() {
