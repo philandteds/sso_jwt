@@ -44,6 +44,11 @@ $ViewList = array(
         'functions' => array( 'idp' ),
         'params'    => array( 'ServiceProvider' )
     ),
+    'changepassword'               => array(
+        'script'    => 'changepassword.php',
+        'functions' => array( 'idp' ),
+        'params'    => array( 'ServiceProvider' )
+    ),
     
     // Service provider views
     'access'              => array(
