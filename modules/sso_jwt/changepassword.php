@@ -16,13 +16,6 @@ $tpl = eZTemplate::factory();
 $password = $http->postVariable('ajax_password');
 $confirmPassword = $http->postVariable('ajax_password_confirm');
 
-//testing TODO remove
-if(!isset($password) || !isset($confirmPassword)) {
-    $password = '5234ABCD!';
-    $confirmPassword = '5234ABCD!';
-}
-
-
 if ($password != $confirmPassword) {
     addError("password", "Passwords must match.", $errors);
 }
@@ -53,6 +46,8 @@ if (count($errors) > 0) {
 if ($errors) {
     errorsToTemplate($errors, $tpl);
     $Result['content']  = $tpl->fetch('design:content/edit.tpl');
+} else {
+    eZExecution::cleanExit();
 }
 
 function addError($fieldName, $errorMessage, &$errors) {
