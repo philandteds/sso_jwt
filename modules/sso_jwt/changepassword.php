@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ajax script to update the portal password
+ * Script to update the portal password
  */
 
 $errors = array();
@@ -12,9 +12,9 @@ $module = $Params['Module'];
 $http = eZHTTPTool::instance();
 $tpl = eZTemplate::factory();
 
-
-$password = $http->postVariable('ajax_password');
-$confirmPassword = $http->postVariable('ajax_password_confirm');
+$password = $http->postVariable('Password');
+$confirmPassword = $http->postVariable('ConfirmPassword');
+$redirectUri = $http->postVariable('redirect');
 
 if ($password != $confirmPassword) {
     addError("password", "Passwords must match.", $errors);
@@ -47,7 +47,7 @@ if ($errors) {
     errorsToTemplate($errors, $tpl);
     $Result['content']  = $tpl->fetch('design:content/edit.tpl');
 } else {
-    eZExecution::cleanExit();
+    $module->redirectTo($redirectUri ?: '/');
 }
 
 function addError($fieldName, $errorMessage, &$errors) {
