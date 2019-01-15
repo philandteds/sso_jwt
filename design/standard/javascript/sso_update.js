@@ -10,7 +10,7 @@ $(document).ready(function() {
 		originalPasswordNames[i] = $(this).prop('name');
 		i++;
 	});
-	//switch password names to names expected by changepassword.php onj portal
+	//switch password names to names expected by changepassword.php on portal
 	for (i = 0; i < originalPasswordNames.length; i++) {
 		$("input[name='" + originalPasswordNames[i] + "']").parent().hide();
 	}
@@ -24,10 +24,52 @@ $(document).ready(function() {
 			$(this).hide();
 		});
 		for (i =0; i < originalPasswordNames.length; i++) {
+			// stop the default _ezpassword being used
+			$("input[name='" + originalPasswordNames[i] + "']").prop('value', null);
 			$("input[name='" + originalPasswordNames[i] + "']").prop('name', changePasswordNames[i]);
 		}
 		$('#change_password').hide();
 		var redirectField = '<input type="hidden" name="redirect" value="' + originalUrl + '"></input>';
 		$('#editform').append(redirectField);
+
+		// initially disable submit button for validation
+		$('input[name="PublishButton"]').addClass('disabledButton');
 	});
+	// basic validation and submit
+	$('input[name="PublishButton"]').click(function(e) {
+		validatePasswordForm();
+		if ($(this).hasClass('disabledButton')) {
+			e.preventDefault();
+		}
+	});
+
+	// validate on input changes
+	$("input[type='password']").change(function() {
+		validatePasswordForm();
+	});
+
+	function validatePasswordForm() {
+		// remove existing errors as they will be added back if they persist
+		$('.help-block.has-error').remove();
+
+		var noErrors = 1;
+		var password = $('input[name="Password"]');
+		var confirmPassword = $('input[name="ConfirmPassword"]');
+		if (!password.val()) {
+			noErrors = 0;
+			password.after('<p class="help-block has-error">This field is required.</p>');
+		}
+		if (!confirmPassword.val()) {
+			noErrors = 0;
+			confirmPassword.after('<p class="help-block has-error">This field is required.</p>');
+		}
+		if (password.val() != confirmPassword.val()) {
+			noErrors = 0;
+			password.after('<p class="help-block has-error">Passwords must match.</p>');
+		}
+		if (noErrors) {
+			$('input[name="PublishButton"]').removeClass('disabledButton');
+		}
+	}
 });
+
