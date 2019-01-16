@@ -10,7 +10,7 @@ $(document).ready(function() {
 		originalPasswordNames[i] = $(this).prop('name');
 		i++;
 	});
-	//switch password names to names expected by changepassword.php on portal
+	//hide password fields on basic load
 	for (i = 0; i < originalPasswordNames.length; i++) {
 		$("input[name='" + originalPasswordNames[i] + "']").parent().hide();
 	}
