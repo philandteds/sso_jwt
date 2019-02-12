@@ -142,7 +142,7 @@
     <name>user/login</name>
     <message>
         <source>Log in</source>
-        <translation type="unfinished"></translation>
+        <translation>Einloggen</translation>
     </message>
     <message>
         <source>Sign Up</source>
