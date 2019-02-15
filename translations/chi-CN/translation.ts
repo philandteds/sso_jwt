@@ -131,7 +131,7 @@
     <name>newsletter</name>
     <message>
         <source>sign me up for the latest news (you can unsubscribe at any time).</source>
-        <translation type="unfinished"></translation>
+        <translation>订阅最新消息！（你可以随时取消订阅）。</translation>
     </message>
     <message>
         <source>Privacy Policy</source>
