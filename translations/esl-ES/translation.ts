@@ -5,148 +5,148 @@
     <name>design/standard/user</name>
     <message>
         <source>Create an Account</source>
-        <translation>Créez un compte</translation>
+        <translation>Crear una cuenta</translation>
     </message>
     <message>
         <source>Why Sign Up?</source>
-        <translation>Pourquoi vous inscrire?</translation>
+        <translation>¿Por qué registrarse?</translation>
     </message>
 </context>
 <context>
     <name>extension/pt</name>
     <message>
         <source>Please wait...</source>
-        <translation>Veuillez patienter...</translation>
+        <translation>Por favor, espere...</translation>
     </message>
     <message>
         <source>Email</source>
-        <translation>Courrier électronique</translation>
+        <translation>Dirección de correo electrónico</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation>Passe</translation>
+        <translation>Contraseña</translation>
     </message>
     <message>
         <source>Sign In</source>
-        <translation>Connectez-vous</translation>
+        <translation>Registrarse</translation>
     </message>
     <message>
         <source>First name</source>
-        <translation>Prénom</translation>
+        <translation>Nombre</translation>
     </message>
     <message>
         <source>Please tell us your first name</source>
-        <translation>Dites-nous votre prénom svp</translation>
+        <translation>Dinos tu nombre, por favor</translation>
     </message>
     <message>
         <source>Last name</source>
-        <translation>Nom de famille</translation>
+        <translation>Apellidos</translation>
     </message>
     <message>
         <source>Please tell us your last name</source>
-        <translation>Dites-nous votre nom de famille svp</translation>
+        <translation>Dinos tu apellido, por favor</translation>
     </message>
     <message>
         <source>Please use a valid email</source>
-        <translation>Donnez nous un courrier électronique valide svp</translation>
+        <translation>Usa una dirección de correo electrónico válida</translation>
     </message>
     <message>
         <source>Please give yourself a password</source>
-        <translation>Choisissez un mot de passe</translation>
+        <translation>Elige una contraseña por favor</translation>
     </message>
     <message>
         <source>Password confirm</source>
-        <translation>Confirmez votre mot de passe</translation>
+        <translation>Confirma la contraseña</translation>
     </message>
     <message>
         <source>Please confirm your password</source>
-        <translation>Confirmez votre mot de passe svp</translation>
+        <translation>Confirma la contraseña por favor</translation>
     </message>
     <message>
         <source>By creating your account you agree to our %privacy_policy</source>
-        <translation>Au moment de créer votre Compte, il vous sera demandé d'accepter notre %privacy_policy</translation>
+        <translation>Al crear su cuenta, acepta nuestros Términos &amp; Condiciones y nuestra %privacy_policy</translation>
     </message>
 </context>
 <context>
     <name>newsletter</name>
     <message>
         <source>sign me up for the latest news (you can unsubscribe at any time).</source>
-        <translation>inscrivez-moi pour obtenir les dernières nouveautés! (vous pouvez résilier l'abonnement à tout moment).</translation>
+        <translation>Inscribirme para obtener las últimas novedades (puedes darte de baja en cualquier momento).</translation>
     </message>
     <message>
         <source>Privacy Policy</source>
-        <translation>Politique de Confidentialité</translation>
+        <translation>política de privacidad</translation>
     </message>
 </context>
 <context>
     <name>user/login</name>
     <message>
         <source>Log in</source>
-        <translation>Ouvrir une session</translation>
+        <translation>Iniciar sesión</translation>
     </message>
     <message>
         <source>Sign Up</source>
-        <translation>S'enregistrer</translation>
+        <translation>Registrarse</translation>
     </message>
     <message>
         <source>Sign in to %site_name</source>
-        <translation>connectez-vous sur en %site_name</translation>
+        <translation>Registrarse en %site_name</translation>
     </message>
     <message>
         <source>Sign in with Twitter</source>
-        <translation>Ouvrez une session via Twitter</translation>
+        <translation>Inicia sesión usando Twitter</translation>
     </message>
     <message>
         <source>Sign in with Facebook</source>
-        <translation>Ouvrez une session via Facebook</translation>
+        <translation>Inicia sesión usando Facebook</translation>
     </message>
     <message>
         <source>Sign in with Google</source>
-        <translation>Ouvrez une session via Google</translation>
+        <translation>Inicia sesión usando Google+</translation>
     </message>
     <message>
         <source>Forgot my password</source>
-        <translation>Vous avez oublié votre mot de passe</translation>
+        <translation>He olvidado mi contraseña</translation>
     </message>
     <message>
         <source>No account yet?</source>
-        <translation>Pas encore de compte?</translation>
+        <translation>¿Todavía no tiene una cuenta?</translation>
     </message>
     <message>
         <source>New to %site_name?</source>
-        <translation>Nouveau chez %site_name?</translation>
+        <translation>¿Nuevo en %site_name?</translation>
     </message>
     <message>
         <source>Register below to join the family</source>
-        <translation>Connectez vous ci-dessous pour vous joindre à la famille</translation>
+        <translation>Regístrate a continuación para unirte a la familia</translation>
     </message>
     <message>
         <source>Keep informed about product upgrades or safety announcements specific to your %site_name product.</source>
-        <translation>Merci de me tenir informé(e) des améliorations et des informations en matière de sécurité des produits %site_name</translation>
+        <translation>Mantente al día de las mejoras e información de seguridad relacionada con tu producto %site_name</translation>
     </message>
     <message>
         <source>order history</source>
-        <translation>historique de commandes</translation>
+        <translation>Historial de pedidos</translation>
     </message>
     <message>
         <source>product registration</source>
-        <translation>enregistrement de produit</translation>
+        <translation>Registro del producto</translation>
     </message>
     <message>
         <source>support history ticketing system</source>
-        <translation>historique des tickets d´assistance</translation>
+        <translation>Historial de tickets de ayuda</translation>
     </message>
     <message>
         <source>important notices for updates/recalls</source>
-        <translation>Avis importants de mises à jour o rappel de produits</translation>
+        <translation>Avisos importantes de actualizaciones o cambios</translation>
     </message>
     <message>
         <source>Try this</source>
-        <translation>Essayez ceci</translation>
+        <translation>Pruebe esto</translation>
     </message>
     <message>
         <source>Forms or support pages not loading? - %try_this</source>
-        <translation>Les formulaires ou les pages d´assistance ne se chargent pas?</translation>
+        <translation>¿Los formularios o páginas de soporte no se cargan? %try_this</translation>
     </message>
 </context>
 </TS>
