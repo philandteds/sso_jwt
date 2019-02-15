@@ -131,7 +131,7 @@
     <name>newsletter</name>
     <message>
         <source>sign me up for the latest news (you can unsubscribe at any time).</source>
-        <translation type="unfinished"></translation>
+        <translation>Registrera dig för de senaste nyheterna! (du kan avbryta prenumerationen när som helst).</translation>
     </message>
     <message>
         <source>Privacy Policy</source>
